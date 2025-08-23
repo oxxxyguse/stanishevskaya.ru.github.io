@@ -58,7 +58,7 @@ git remote -v
 git add .
 
 # Создание первого коммита
-git commit -m "Initial commit: TechStore интернет-магазин
+git commit -m "Initial commit: Stanishevskaya Line интернет-магазин женской одежды
 
 - Главная страница с hero слайдером
 - Каталог товаров с фильтрацией и сортировкой

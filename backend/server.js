@@ -47,7 +47,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/techstore', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/stanishevskaya', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

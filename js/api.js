@@ -1,7 +1,7 @@
 // API configuration and methods
 class API {
     constructor() {
-        this.baseURL = 'https://api.stanishevskaya.ru'; // Замените на ваш реальный API endpoint
+        this.baseURL = 'https://api.stanishevskaya.ru'; // API endpoint для Stanishevskaya Line
         this.apiKey = null;
         this.isAuthenticated = false;
     }

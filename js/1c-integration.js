@@ -1,4 +1,4 @@
-// 1C Integration for TechStore
+// 1C Integration for Stanishevskaya Line
 class OneCIntegration {
     constructor() {
         this.syncInterval = null;

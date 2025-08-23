@@ -1,4 +1,4 @@
-# TechStore .htaccess Configuration
+# Stanishevskaya Line .htaccess Configuration
 # Оптимизация производительности и SEO
 
 # Включение модуля перезаписи
@@ -217,8 +217,8 @@ LimitRequestBody 10485760
 </IfModule>
 
 # Логирование ошибок
-ErrorLog ${APACHE_LOG_DIR}/techstore_error.log
-CustomLog ${APACHE_LOG_DIR}/techstore_access.log combined
+ErrorLog ${APACHE_LOG_DIR}/stanishevskaya_error.log
+CustomLog ${APACHE_LOG_DIR}/stanishevskaya_access.log combined
 
 # Настройки для производительности
 <IfModule mod_mime.c>

@@ -65,10 +65,10 @@ class ProductDetail {
         const imageText = document.querySelector('.main-image .image-placeholder p');
         
         const images = [
-            { icon: 'fas fa-laptop', text: 'MacBook Pro M2 - Вид спереди' },
-            { icon: 'fas fa-laptop', text: 'MacBook Pro M2 - Вид сбоку' },
-            { icon: 'fas fa-laptop', text: 'MacBook Pro M2 - Вид сзади' },
-            { icon: 'fas fa-laptop', text: 'MacBook Pro M2 - Дисплей' }
+                    { icon: 'fas fa-female', text: 'Вечернее платье "Элегант" - Вид спереди' },
+        { icon: 'fas fa-female', text: 'Вечернее платье "Элегант" - Вид сбоку' },
+        { icon: 'fas fa-female', text: 'Вечернее платье "Элегант" - Вид сзади' },
+        { icon: 'fas fa-female', text: 'Вечернее платье "Элегант" - Детали' }
         ];
 
         if (images[index]) {
@@ -142,11 +142,11 @@ class ProductDetail {
     addToCart() {
         const product = {
             id: 1,
-            name: 'MacBook Pro M2 14" 512GB SSD',
-            price: 249990,
-            image: 'fas fa-laptop',
-            category: 'Ноутбуки',
-            brand: 'Apple'
+            name: 'Вечернее платье "Элегант" - Роскошный наряд для особых случаев',
+            price: 12990,
+            image: 'fas fa-female',
+            category: 'Платья',
+            brand: 'Stanishevskaya Line'
         };
 
         // Add to cart with quantity

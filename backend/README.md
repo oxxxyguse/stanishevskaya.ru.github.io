@@ -1,6 +1,6 @@
-# TechStore Backend API
+# Stanishevskaya Line Backend API
 
-Backend API для интернет-магазина TechStore, построенный на Node.js, Express и MongoDB.
+Backend API для интернет-магазина Stanishevskaya Line, построенный на Node.js, Express и MongoDB.
 
 ## 🚀 Возможности
 
@@ -246,8 +246,8 @@ npm start
 ### Docker
 
 ```bash
-docker build -t techstore-backend .
-docker run -p 3000:3000 techstore-backend
+docker build -t stanishevskaya-backend .
+docker run -p 3000:3000 stanishevskaya-backend
 ```
 
 ## 🔧 Конфигурация
@@ -289,9 +289,9 @@ MIT License
 
 ## 🆘 Поддержка
 
-- **Email**: support@techstore.com
+- **Email**: support@stanishevskaya.ru
 - **GitHub Issues**: [Создать issue](https://github.com/your-repo/issues)
-- **Документация**: [API Docs](https://docs.techstore.com)
+- **Документация**: [API Docs](https://docs.stanishevskaya.ru)
 
 ## 🔄 Обновления
 

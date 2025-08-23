@@ -1,7 +1,7 @@
 {
-  "name": "techstore-backend",
+  "name": "stanishevskaya-backend",
   "version": "1.0.0",
-  "description": "Backend API для интернет-магазина TechStore",
+  "description": "Backend API для интернет-магазина Stanishevskaya Line",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,7 @@
     "seed": "node scripts/seed.js"
   },
   "keywords": ["ecommerce", "api", "nodejs", "express", "mongodb"],
-  "author": "TechStore Team",
+  "author": "Stanishevskaya Line Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

@@ -168,14 +168,14 @@ class Account {
                 date: '2024-01-15',
                 status: 'delivered',
                 total: 45000,
-                items: ['MacBook Pro M2', 'Magic Mouse']
+                items: ['Вечернее платье "Элегант"', 'Туфли "Грейс"']
             },
             {
                 id: 2,
                 date: '2024-01-10',
                 status: 'processing',
                 total: 25000,
-                items: ['iPhone 15 Pro']
+                items: ['Блузка "Нежность"']
             }
         ];
 
@@ -238,13 +238,13 @@ class Account {
         const favorites = [
             {
                 id: 1,
-                name: 'MacBook Pro M2',
+                name: 'Вечернее платье "Элегант"',
                 price: 250000,
                 image: 'fas fa-laptop'
             },
             {
                 id: 2,
-                name: 'iPhone 15 Pro',
+                name: 'Блузка "Нежность"',
                 price: 120000,
                 image: 'fas fa-mobile-alt'
             }
