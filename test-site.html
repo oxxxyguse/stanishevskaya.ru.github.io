@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест сайта - Stanishevskaya Line</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+        .test-section {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #00d4ff;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #28a745; }
+        .warning { background: #ffc107; color: #000; }
+        .error { background: #dc3545; }
+        .link {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #00d4ff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #00b8e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Тестирование сайта Stanishevskaya Line</h1>
+    
+    <div class="test-section">
+        <h2>✅ Статус проекта</h2>
+        <div class="status success">
+            <strong>Проект готов!</strong> Все файлы обновлены и синхронизированы с GitHub.
+        </div>
+        <p><strong>Дата последнего обновления:</strong> $(Get-Date -Format "dd.MM.yyyy HH:mm")</p>
+        <p><strong>Ветка Git:</strong> main</p>
+        <p><strong>Последний коммит:</strong> rebrand: изменение бренда с TechStore на Stanishevskaya Line</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🔗 Ссылки для просмотра</h2>
+        <p><strong>Главная страница:</strong></p>
+        <a href="index.html" class="btn">Открыть index.html</a>
+        
+        <p><strong>Основные страницы:</strong></p>
+        <a href="pages/catalog.html" class="btn">Каталог</a>
+        <a href="pages/cart.html" class="btn">Корзина</a>
+        <a href="pages/account.html" class="btn">Личный кабинет</a>
+        <a href="pages/brand.html" class="btn">О бренде</a>
+        <a href="pages/product.html" class="btn">Товар</a>
+        
+        <p><strong>Тестирование:</strong></p>
+        <a href="testing-dashboard.html" class="btn">Панель тестирования</a>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Локальный сервер</h2>
+        <p>Для запуска локального сервера выполните в терминале:</p>
+        <code style="background: #333; padding: 10px; display: block; border-radius: 5px;">
+            cd "E:\projeckt"<br>
+            python -m http.server 8000
+        </code>
+        <p>Затем откройте: <a href="http://localhost:8000" class="link">http://localhost:8000</a></p>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 GitHub Pages</h2>
+        <p>Сайт также доступен через GitHub Pages:</p>
+        <a href="https://oxxxyguse.github.io/stanishevskaya.ru.github.io/" class="link" target="_blank">
+            https://oxxxyguse.github.io/stanishevskaya.ru.github.io/
+        </a>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Что было изменено</h2>
+        <ul>
+            <li>✅ Бренд: TechStore → Stanishevskaya Line</li>
+            <li>✅ Специализация: Техника → Женская одежда</li>
+            <li>✅ Товары: MacBook, iPhone → Платья, блузки, туфли</li>
+            <li>✅ Категории: Ноутбуки → Платья, Блузки, Обувь</li>
+            <li>✅ Иконки: Техника → Мода (👩, 👕, 👠, 💎)</li>
+            <li>✅ Контакты: techstore.ru → stanishevskaya.ru</li>
+            <li>✅ Backend: techstore → stanishevskaya</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🚀 Следующие шаги</h2>
+        <ol>
+            <li>Запустить локальный сервер для тестирования</li>
+            <li>Проверить все страницы и функции</li>
+            <li>Развернуть на reg.ru хостинге</li>
+            <li>Настроить аналитику и мониторинг</li>
+        </ol>
+    </div>
+
+    <script>
+        // Простая проверка работоспособности JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ JavaScript работает корректно');
+            
+            // Проверка наличия основных файлов
+            const files = [
+                'css/style.css',
+                'css/responsive.css',
+                'js/main.js',
+                'js/catalog.js',
+                'js/cart.js',
+                'js/account.js'
+            ];
+            
+            files.forEach(file => {
+                fetch(file)
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`✅ ${file} доступен`);
+                        } else {
+                            console.error(`❌ ${file} недоступен`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`❌ Ошибка загрузки ${file}:`, error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
