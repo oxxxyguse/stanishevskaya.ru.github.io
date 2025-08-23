@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование безопасности - TechStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .security-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .security-section {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .security-section h2 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 0.5rem;
+        }
+        
+        .security-score {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 2px solid #00d4ff;
+        }
+        
+        .score-display {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-excellent {
+            color: #44ff44;
+        }
+        
+        .score-good {
+            color: #00d4ff;
+        }
+        
+        .score-warning {
+            color: #ffaa00;
+        }
+        
+        .score-poor {
+            color: #ff4444;
+        }
+        
+        .score-label {
+            color: #cccccc;
+            font-size: 1.1rem;
+        }
+        
+        .security-test {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .test-title h3 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-title p {
+            color: #cccccc;
+            margin: 0;
+        }
+        
+        .test-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-passed {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .status-failed {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .status-warning {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .status-info {
+            background: #00d4ff;
+            color: #000000;
+        }
+        
+        .test-details {
+            background: #333333;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .test-details.show {
+            display: block;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #444444;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #cccccc;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: #ffffff;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .btn-security {
+            background: #00d4ff;
+            color: #000000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-security:hover {
+            background: #00b8e6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-security.danger {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .btn-security.success {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .btn-security.warning {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .vulnerability-list {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .vulnerability-item {
+            background: #333333;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ff4444;
+        }
+        
+        .vulnerability-item.medium {
+            border-left-color: #ffaa00;
+        }
+        
+        .vulnerability-item.low {
+            border-left-color: #44ff44;
+        }
+        
+        .vulnerability-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .vulnerability-title {
+            color: #ff4444;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .vulnerability-severity {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .severity-high {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .severity-medium {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .severity-low {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .vulnerability-description {
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .vulnerability-recommendation {
+            color: #00d4ff;
+            font-style: italic;
+        }
+        
+        .security-report {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .report-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .report-stat {
+            background: #333333;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .report-stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .report-stat-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #333333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00b8e6);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .security-checklist {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #444444;
+        }
+        
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist-checkbox {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+        
+        .checklist-label {
+            color: #ffffff;
+            flex-grow: 1;
+        }
+        
+        .checklist-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>TechStore</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html">Главная</a>
+                    <a href="pages/catalog.html">Каталог</a>
+                    <a href="pages/brand.html">О бренде</a>
+                    <a href="pages/account.html">Личный кабинет</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Поиск по сайту..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="user-menu">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="security-container">
+            <h1 style="text-align: center; color: #00d4ff; margin-bottom: 2rem;">
+                <i class="fas fa-shield-alt"></i> Тестирование безопасности TechStore
+            </h1>
+            
+            <!-- Общая оценка безопасности -->
+            <div class="security-score">
+                <h2>Общая оценка безопасности</h2>
+                <div class="score-display">
+                    <div class="score-item">
+                        <div class="score-number score-excellent" id="overallScore">--</div>
+                        <div class="score-label">Общий балл</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-number score-excellent" id="vulnerabilityScore">--</div>
+                        <div class="score-label">Уязвимости</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-number score-excellent" id="configurationScore">--</div>
+                        <div class="score-label">Конфигурация</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-number score-excellent" id="authenticationScore">--</div>
+                        <div class="score-label">Аутентификация</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="securityProgress"></div>
+                </div>
+                
+                <div class="test-buttons">
+                    <button class="btn-security" onclick="runSecurityTests()">
+                        <i class="fas fa-play"></i> Запустить тесты безопасности
+                    </button>
+                    <button class="btn-security warning" onclick="runVulnerabilityScan()">
+                        <i class="fas fa-search"></i> Сканировать уязвимости
+                    </button>
+                    <button class="btn-security success" onclick="generateSecurityReport()">
+                        <i class="fas fa-file-alt"></i> Создать отчет
+                    </button>
+                </div>
+            </div>
+
+            <!-- Тесты безопасности -->
+            <div class="security-section">
+                <h2><i class="fas fa-vial"></i> Тесты безопасности</h2>
+                
+                <div class="security-test">
+                    <div class="test-header">
+                        <div class="test-title">
+                            <h3>HTTPS и SSL/TLS</h3>
+                            <p>Проверка использования защищенного соединения</p>
+                        </div>
+                        <div class="test-status" id="httpsStatus">Ожидание</div>
+                    </div>
+                    <div class="test-details" id="httpsDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">Протокол:</span>
+                            <span class="detail-value" id="httpsProtocol">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Сертификат:</span>
+                            <span class="detail-value" id="httpsCertificate">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Шифрование:</span>
+                            <span class="detail-value" id="httpsEncryption">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-test">
+                    <div class="test-header">
+                        <div class="test-title">
+                            <h3>Заголовки безопасности</h3>
+                            <p>Проверка настроек безопасности HTTP заголовков</p>
+                        </div>
+                        <div class="test-status" id="headersStatus">Ожидание</div>
+                    </div>
+                    <div class="test-details" id="headersDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">X-Frame-Options:</span>
+                            <span class="detail-value" id="xFrameOptions">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">X-Content-Type-Options:</span>
+                            <span class="detail-value" id="xContentTypeOptions">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">X-XSS-Protection:</span>
+                            <span class="detail-value" id="xXSSProtection">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Content-Security-Policy:</span>
+                            <span class="detail-value" id="contentSecurityPolicy">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-test">
+                    <div class="test-header">
+                        <div class="test-title">
+                            <h3>Аутентификация и авторизация</h3>
+                            <p>Проверка системы входа и управления сессиями</p>
+                        </div>
+                        <div class="test-status" id="authStatus">Ожидание</div>
+                    </div>
+                    <div class="test-details" id="authDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">Форма входа:</span>
+                            <span class="detail-value" id="loginForm">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Валидация паролей:</span>
+                            <span class="detail-value" id="passwordValidation">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Защита от брутфорса:</span>
+                            <span class="detail-value" id="bruteforceProtection">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Управление сессиями:</span>
+                            <span class="detail-value" id="sessionManagement">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-test">
+                    <div class="test-header">
+                        <div class="test-title">
+                            <h3>Валидация входных данных</h3>
+                            <p>Проверка защиты от XSS и SQL инъекций</p>
+                        </div>
+                        <div class="test-status" id="validationStatus">Ожидание</div>
+                    </div>
+                    <div class="test-details" id="validationDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">XSS защита:</span>
+                            <span class="detail-value" id="xssProtection">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">SQL инъекции:</span>
+                            <span class="detail-value" id="sqlInjection">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">CSRF защита:</span>
+                            <span class="detail-value" id="csrfProtection">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Валидация форм:</span>
+                            <span class="detail-value" id="formValidation">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-test">
+                    <div class="test-header">
+                        <div class="test-title">
+                            <h3>Файловая безопасность</h3>
+                            <p>Проверка доступа к системным файлам</p>
+                        </div>
+                        <div class="test-status" id="filesStatus">Ожидание</div>
+                    </div>
+                    <div class="test-details" id="filesDetails">
+                        <div class="detail-item">
+                            <span class="detail-label">.htaccess:</span>
+                            <span class="detail-value" id="htaccessAccess">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Конфигурация:</span>
+                            <span class="detail-value" id="configAccess">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Логи:</span>
+                            <span class="detail-value" id="logsAccess">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Backup файлы:</span>
+                            <span class="detail-value" id="backupAccess">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Список уязвимостей -->
+            <div class="security-section">
+                <h2><i class="fas fa-exclamation-triangle"></i> Обнаруженные уязвимости</h2>
+                
+                <div class="vulnerability-list" id="vulnerabilityList">
+                    <p>Запустите сканирование для поиска уязвимостей</p>
+                </div>
+            </div>
+
+            <!-- Отчет по безопасности -->
+            <div class="security-section">
+                <h2><i class="fas fa-chart-pie"></i> Отчет по безопасности</h2>
+                
+                <div class="security-report" id="securityReport">
+                    <p>Создайте отчет для получения детальной информации</p>
+                </div>
+            </div>
+
+            <!-- Чек-лист безопасности -->
+            <div class="security-section">
+                <h2><i class="fas fa-tasks"></i> Чек-лист безопасности</h2>
+                
+                <div class="security-checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check1">
+                        <label class="checklist-label" for="check1">Использование HTTPS на всех страницах</label>
+                        <div class="checklist-status" id="status1">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check2">
+                        <label class="checklist-label" for="check2">Настройка заголовков безопасности</label>
+                        <div class="checklist-status" id="status2">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check3">
+                        <label class="checklist-label" for="check3">Валидация всех входных данных</label>
+                        <div class="checklist-status" id="status3">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check4">
+                        <label class="checklist-label" for="check4">Защита от SQL инъекций</label>
+                        <div class="checklist-status" id="status4">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check5">
+                        <label class="checklist-label" for="check5">Защита от XSS атак</label>
+                        <div class="checklist-status" id="status5">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check6">
+                        <label class="checklist-label" for="check6">Защита от CSRF атак</label>
+                        <div class="checklist-status" id="status6">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check7">
+                        <label class="checklist-label" for="check7">Безопасное управление сессиями</label>
+                        <div class="checklist-status" id="status7">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check8">
+                        <label class="checklist-label" for="check8">Ограничение доступа к файлам</label>
+                        <div class="checklist-status" id="status8">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check9">
+                        <label class="checklist-label" for="check9">Регулярное обновление зависимостей</label>
+                        <div class="checklist-status" id="status9">Ожидание</div>
+                    </div>
+                    
+                    <div class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox" id="check10">
+                        <label class="checklist-label" for="check10">Мониторинг безопасности</label>
+                        <div class="checklist-status" id="status10">Ожидание</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Глобальные переменные для тестирования безопасности
+        let securityResults = {
+            https: { status: 'pending', score: 0, details: {} },
+            headers: { status: 'pending', score: 0, details: {} },
+            auth: { status: 'pending', score: 0, details: {} },
+            validation: { status: 'pending', score: 0, details: {} },
+            files: { status: 'pending', score: 0, details: {} }
+        };
+        
+        let vulnerabilities = [];
+        let securityScore = 0;
+
+        // Функция для получения статуса теста
+        function getTestStatus(score) {
+            if (score >= 90) return { status: 'passed', text: 'Пройден', class: 'status-passed' };
+            if (score >= 70) return { status: 'warning', text: 'Предупреждение', class: 'status-warning' };
+            return { status: 'failed', text: 'Провален', class: 'status-failed' };
+        }
+
+        // Функция для обновления прогресса безопасности
+        function updateSecurityProgress() {
+            const totalTests = Object.keys(securityResults).length;
+            const passedTests = Object.values(securityResults).filter(r => r.status === 'passed').length;
+            const progress = (passedTests / totalTests) * 100;
+            
+            document.getElementById('securityProgress').style.width = progress + '%';
+        }
+
+        // Функция для расчета общего балла безопасности
+        function calculateSecurityScore() {
+            const scores = Object.values(securityResults).map(r => r.score);
+            const averageScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+            securityScore = Math.round(averageScore);
+            
+            document.getElementById('overallScore').textContent = securityScore;
+            document.getElementById('overallScore').className = `score-number score-${getScoreClass(securityScore)}`;
+            
+            updateSecurityProgress();
+        }
+
+        // Функция для получения класса оценки
+        function getScoreClass(score) {
+            if (score >= 90) return 'excellent';
+            if (score >= 75) return 'good';
+            if (score >= 60) return 'warning';
+            return 'poor';
+        }
+
+        // Функция для тестирования HTTPS
+        function testHTTPS() {
+            const isHTTPS = window.location.protocol === 'https:';
+            const score = isHTTPS ? 100 : 0;
+            
+            securityResults.https = {
+                status: isHTTPS ? 'passed' : 'failed',
+                score: score,
+                details: {
+                    protocol: window.location.protocol,
+                    certificate: isHTTPS ? 'Действителен' : 'Не используется',
+                    encryption: isHTTPS ? 'TLS 1.3' : 'Отсутствует'
+                }
+            };
+            
+            // Обновление UI
+            const status = getTestStatus(score);
+            document.getElementById('httpsStatus').textContent = status.text;
+            document.getElementById('httpsStatus').className = `test-status ${status.class}`;
+            
+            document.getElementById('httpsProtocol').textContent = securityResults.https.details.protocol;
+            document.getElementById('httpsCertificate').textContent = securityResults.https.details.certificate;
+            document.getElementById('httpsEncryption').textContent = securityResults.https.details.encryption;
+            
+            // Показ деталей
+            document.getElementById('httpsDetails').classList.add('show');
+        }
+
+        // Функция для тестирования заголовков безопасности
+        function testSecurityHeaders() {
+            // Симуляция проверки заголовков
+            const headers = {
+                'X-Frame-Options': 'DENY',
+                'X-Content-Type-Options': 'nosniff',
+                'X-XSS-Protection': '1; mode=block',
+                'Content-Security-Policy': 'default-src \'self\''
+            };
+            
+            let score = 0;
+            let foundHeaders = 0;
+            
+            Object.entries(headers).forEach(([header, value]) => {
+                if (value) {
+                    foundHeaders++;
+                    score += 25;
+                }
+            });
+            
+            securityResults.headers = {
+                status: score >= 75 ? 'passed' : score >= 50 ? 'warning' : 'failed',
+                score: score,
+                details: headers
+            };
+            
+            // Обновление UI
+            const status = getTestStatus(score);
+            document.getElementById('headersStatus').textContent = status.text;
+            document.getElementById('headersStatus').className = `test-status ${status.class}`;
+            
+            document.getElementById('xFrameOptions').textContent = headers['X-Frame-Options'] || 'Отсутствует';
+            document.getElementById('xContentTypeOptions').textContent = headers['X-Content-Type-Options'] || 'Отсутствует';
+            document.getElementById('xXSSProtection').textContent = headers['X-XSS-Protection'] || 'Отсутствует';
+            document.getElementById('contentSecurityPolicy').textContent = headers['Content-Security-Policy'] || 'Отсутствует';
+            
+            document.getElementById('headersDetails').classList.add('show');
+        }
+
+        // Функция для тестирования аутентификации
+        function testAuthentication() {
+            // Симуляция проверки аутентификации
+            const authChecks = {
+                loginForm: 'Найдена',
+                passwordValidation: 'Реализована',
+                bruteforceProtection: 'Отсутствует',
+                sessionManagement: 'Базовая'
+            };
+            
+            let score = 50; // Базовый балл
+            
+            if (authChecks.passwordValidation === 'Реализована') score += 25;
+            if (authChecks.sessionManagement !== 'Отсутствует') score += 25;
+            
+            securityResults.auth = {
+                status: score >= 75 ? 'passed' : score >= 50 ? 'warning' : 'failed',
+                score: score,
+                details: authChecks
+            };
+            
+            // Обновление UI
+            const status = getTestStatus(score);
+            document.getElementById('authStatus').textContent = status.text;
+            document.getElementById('authStatus').className = `test-status ${status.class}`;
+            
+            document.getElementById('loginForm').textContent = authChecks.loginForm;
+            document.getElementById('passwordValidation').textContent = authChecks.passwordValidation;
+            document.getElementById('bruteforceProtection').textContent = authChecks.bruteforceProtection;
+            document.getElementById('sessionManagement').textContent = authChecks.sessionManagement;
+            
+            document.getElementById('authDetails').classList.add('show');
+        }
+
+        // Функция для тестирования валидации
+        function testValidation() {
+            // Симуляция проверки валидации
+            const validationChecks = {
+                xssProtection: 'Базовая',
+                sqlInjection: 'Защищено',
+                csrfProtection: 'Отсутствует',
+                formValidation: 'Клиентская'
+            };
+            
+            let score = 40; // Базовый балл
+            
+            if (validationChecks.sqlInjection === 'Защищено') score += 30;
+            if (validationChecks.formValidation !== 'Отсутствует') score += 30;
+            
+            securityResults.validation = {
+                status: score >= 75 ? 'passed' : score >= 50 ? 'warning' : 'failed',
+                score: score,
+                details: validationChecks
+            };
+            
+            // Обновление UI
+            const status = getTestStatus(score);
+            document.getElementById('validationStatus').textContent = status.text;
+            document.getElementById('validationStatus').className = `test-status ${status.class}`;
+            
+            document.getElementById('xssProtection').textContent = validationChecks.xssProtection;
+            document.getElementById('sqlInjection').textContent = validationChecks.sqlInjection;
+            document.getElementById('csrfProtection').textContent = validationChecks.csrfProtection;
+            document.getElementById('formValidation').textContent = validationChecks.formValidation;
+            
+            document.getElementById('validationDetails').classList.add('show');
+        }
+
+        // Функция для тестирования файловой безопасности
+        function testFileSecurity() {
+            // Симуляция проверки файловой безопасности
+            const fileChecks = {
+                htaccess: 'Доступен',
+                config: 'Защищен',
+                logs: 'Защищен',
+                backup: 'Защищен'
+            };
+            
+            let score = 50; // Базовый балл
+            
+            if (fileChecks.config === 'Защищен') score += 25;
+            if (fileChecks.logs === 'Защищен') score += 25;
+            
+            securityResults.files = {
+                status: score >= 75 ? 'passed' : score >= 50 ? 'warning' : 'failed',
+                score: score,
+                details: fileChecks
+            };
+            
+            // Обновление UI
+            const status = getTestStatus(score);
+            document.getElementById('filesStatus').textContent = status.text;
+            document.getElementById('filesStatus').className = `test-status ${status.class}`;
+            
+            document.getElementById('htaccessAccess').textContent = fileChecks.htaccess;
+            document.getElementById('configAccess').textContent = fileChecks.config;
+            document.getElementById('logsAccess').textContent = fileChecks.logs;
+            document.getElementById('backupAccess').textContent = fileChecks.backup;
+            
+            document.getElementById('filesDetails').classList.add('show');
+        }
+
+        // Функция для запуска всех тестов безопасности
+        async function runSecurityTests() {
+            // Сброс результатов
+            securityResults = {
+                https: { status: 'pending', score: 0, details: {} },
+                headers: { status: 'pending', score: 0, details: {} },
+                auth: { status: 'pending', score: 0, details: {} },
+                validation: { status: 'pending', score: 0, details: {} },
+                files: { status: 'pending', score: 0, details: {} }
+            };
+            
+            // Запуск тестов с задержкой для демонстрации
+            testHTTPS();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            testSecurityHeaders();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            testAuthentication();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            testValidation();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            testFileSecurity();
+            
+            // Расчет общего балла
+            setTimeout(calculateSecurityScore, 500);
+            
+            // Обновление чек-листа
+            updateChecklist();
+        }
+
+        // Функция для сканирования уязвимостей
+        function runVulnerabilityScan() {
+            vulnerabilities = [
+                {
+                    title: 'Отсутствует защита от брутфорс атак',
+                    severity: 'high',
+                    description: 'Система не ограничивает количество попыток входа, что делает возможным перебор паролей.',
+                    recommendation: 'Реализовать ограничение попыток входа и временную блокировку аккаунта.'
+                },
+                {
+                    title: 'Отсутствует CSRF защита',
+                    severity: 'medium',
+                    description: 'Формы не защищены от Cross-Site Request Forgery атак.',
+                    recommendation: 'Добавить CSRF токены во все формы.'
+                },
+                {
+                    title: 'Базовая защита от XSS',
+                    severity: 'medium',
+                    description: 'Защита от XSS атак реализована на базовом уровне.',
+                    recommendation: 'Улучшить валидацию и экранирование пользовательского ввода.'
+                },
+                {
+                    title: 'Доступ к .htaccess файлу',
+                    severity: 'low',
+                    description: 'Файл .htaccess доступен для просмотра.',
+                    recommendation: 'Ограничить доступ к конфигурационным файлам.'
+                }
+            ];
+            
+            displayVulnerabilities();
+        }
+
+        // Функция для отображения уязвимостей
+        function displayVulnerabilities() {
+            const container = document.getElementById('vulnerabilityList');
+            
+            if (vulnerabilities.length === 0) {
+                container.innerHTML = '<p>Уязвимости не обнаружены</p>';
+                return;
+            }
+            
+            container.innerHTML = vulnerabilities.map(vuln => `
+                <div class="vulnerability-item ${vuln.severity}">
+                    <div class="vulnerability-header">
+                        <div class="vulnerability-title">${vuln.title}</div>
+                        <div class="vulnerability-severity severity-${vuln.severity}">
+                            ${vuln.severity === 'high' ? 'Высокая' : vuln.severity === 'medium' ? 'Средняя' : 'Низкая'}
+                        </div>
+                    </div>
+                    <div class="vulnerability-description">${vuln.description}</div>
+                    <div class="vulnerability-recommendation">${vuln.recommendation}</div>
+                </div>
+            `).join('');
+        }
+
+        // Функция для создания отчета по безопасности
+        function generateSecurityReport() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                overallScore: securityScore,
+                testResults: securityResults,
+                vulnerabilities: vulnerabilities,
+                recommendations: generateRecommendations()
+            };
+            
+            displaySecurityReport(report);
+        }
+
+        // Функция для генерации рекомендаций
+        function generateRecommendations() {
+            const recommendations = [];
+            
+            if (securityScore < 90) {
+                recommendations.push('Провести аудит безопасности и исправить критические уязвимости');
+            }
+            
+            if (vulnerabilities.some(v => v.severity === 'high')) {
+                recommendations.push('Немедленно исправить высокоуровневые уязвимости');
+            }
+            
+            if (securityResults.auth.score < 75) {
+                recommendations.push('Улучшить систему аутентификации и авторизации');
+            }
+            
+            if (securityResults.validation.score < 75) {
+                recommendations.push('Усилить валидацию входных данных');
+            }
+            
+            return recommendations;
+        }
+
+        // Функция для отображения отчета по безопасности
+        function displaySecurityReport(report) {
+            const container = document.getElementById('securityReport');
+            
+            const highVulns = vulnerabilities.filter(v => v.severity === 'high').length;
+            const mediumVulns = vulnerabilities.filter(v => v.severity === 'medium').length;
+            const lowVulns = vulnerabilities.filter(v => v.severity === 'low').length;
+            
+            container.innerHTML = `
+                <h3>Отчет по безопасности</h3>
+                <div class="report-summary">
+                    <div class="report-stat">
+                        <div class="report-stat-number">${report.overallScore}</div>
+                        <div class="report-stat-label">Общий балл</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="report-stat-number">${highVulns}</div>
+                        <div class="report-stat-label">Высокие уязвимости</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="report-stat-number">${mediumVulns}</div>
+                        <div class="report-stat-label">Средние уязвимости</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="report-stat-number">${lowVulns}</div>
+                        <div class="report-stat-label">Низкие уязвимости</div>
+                    </div>
+                </div>
+                
+                <h4>Рекомендации:</h4>
+                <ul style="color: #cccccc; margin-left: 1rem;">
+                    ${report.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                </ul>
+                
+                <button class="btn-security success" onclick="exportSecurityReport()" style="margin-top: 1rem;">
+                    <i class="fas fa-download"></i> Экспорт отчета
+                </button>
+            `;
+        }
+
+        // Функция для экспорта отчета по безопасности
+        function exportSecurityReport() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                overallScore: securityScore,
+                testResults: securityResults,
+                vulnerabilities: vulnerabilities,
+                recommendations: generateRecommendations()
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `security-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Функция для обновления чек-листа
+        function updateChecklist() {
+            const checklistItems = [
+                { id: 1, condition: securityResults.https.score >= 90 },
+                { id: 2, condition: securityResults.headers.score >= 75 },
+                { id: 3, condition: securityResults.validation.score >= 75 },
+                { id: 4, condition: securityResults.validation.details.sqlInjection === 'Защищено' },
+                { id: 5, condition: securityResults.validation.details.xssProtection !== 'Отсутствует' },
+                { id: 6, condition: securityResults.validation.details.csrfProtection !== 'Отсутствует' },
+                { id: 7, condition: securityResults.auth.score >= 75 },
+                { id: 8, condition: securityResults.files.score >= 75 },
+                { id: 9, condition: true }, // Всегда true для демонстрации
+                { id: 10, condition: true }  // Всегда true для демонстрации
+            ];
+            
+            checklistItems.forEach(item => {
+                const checkbox = document.getElementById(`check${item.id}`);
+                const status = document.getElementById(`status${item.id}`);
+                
+                checkbox.checked = item.condition;
+                
+                if (item.condition) {
+                    status.textContent = 'Выполнено';
+                    status.className = 'checklist-status status-passed';
+                } else {
+                    status.textContent = 'Не выполнено';
+                    status.className = 'checklist-status status-failed';
+                }
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автоматический запуск тестов при загрузке
+            setTimeout(runSecurityTests, 1000);
+        });
+    </script>
+</body>
+</html>

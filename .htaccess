@@ -1,0 +1,245 @@
+# TechStore .htaccess Configuration
+# Оптимизация производительности и SEO
+
+# Включение модуля перезаписи
+RewriteEngine On
+
+# Принудительное перенаправление на HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Убираем www из URL (если нужно)
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Убираем расширение .html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Убираем trailing slash
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Сжатие файлов
+<IfModule mod_deflate.c>
+    # Включение сжатия
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/xml+rss
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Кэширование статических файлов
+<IfModule mod_expires.c>
+    ExpiresActive on
+    
+    # HTML файлы
+    ExpiresByType text/html "access plus 1 hour"
+    
+    # CSS и JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    
+    # Изображения
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/ico "access plus 1 year"
+    ExpiresByType image/icon "access plus 1 year"
+    
+    # Шрифты
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    
+    # Документы
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/msword "access plus 1 month"
+    ExpiresByType application/vnd.ms-excel "access plus 1 month"
+</IfModule>
+
+# Заголовки кэширования
+<IfModule mod_headers.c>
+    # Кэширование для статических файлов
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000"
+    </FilesMatch>
+    
+    # Кэширование для HTML файлов
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=3600"
+    </FilesMatch>
+    
+    # Заголовки безопасности
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Заголовки производительности
+    Header always set Vary "Accept-Encoding"
+</IfModule>
+
+# Обработка ошибок
+ErrorDocument 400 /pages/400.html
+ErrorDocument 401 /pages/401.html
+ErrorDocument 403 /pages/403.html
+ErrorDocument 404 /pages/404.html
+ErrorDocument 500 /pages/500.html
+ErrorDocument 502 /pages/502.html
+ErrorDocument 503 /pages/503.html
+
+# Защита от хотлинкинга изображений
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?stanishevskaya\.ru [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yourdomain\.ru [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F]
+
+# Защита от доступа к системным файлам
+<FilesMatch "^(\.htaccess|\.htpasswd|\.git|\.env|config\.php|composer\.json|package\.json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Защита от доступа к папкам
+<IfModule mod_rewrite.c>
+    RewriteRule ^(css|js|images|uploads)/.*\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$ - [F]
+</IfModule>
+
+# Защита от SQL инъекций
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+RewriteCond %{QUERY_STRING} mosConfig [OR]
+RewriteCond %{QUERY_STRING} base64_(en|de)code [OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*iframe.*(\>|%3E) [NC]
+RewriteRule .* - [F]
+
+# Защита от XSS атак
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} javascript: [NC,OR]
+RewriteCond %{QUERY_STRING} vbscript: [NC,OR]
+RewriteCond %{QUERY_STRING} onload= [NC,OR]
+RewriteCond %{QUERY_STRING} onerror= [NC]
+RewriteRule .* - [F]
+
+# Блокировка плохих ботов
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(libwww-perl|curl|wget|python|nikto|wkito|pikto|acunetix).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner).* [NC]
+RewriteRule .* - [F]
+
+# Ограничение размера загружаемых файлов
+LimitRequestBody 10485760
+
+# Включение GZIP сжатия
+<IfModule mod_gzip.c>
+    mod_gzip_on Yes
+    mod_gzip_dechunk Yes
+    mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+    mod_gzip_item_include handler ^cgi-script$
+    mod_gzip_item_include mime ^text/.*
+    mod_gzip_item_include mime ^application/x-javascript.*
+    mod_gzip_item_exclude mime ^image/.*
+    mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+
+# Настройки для PHP (если используется)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 256M
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# Дополнительные заголовки для безопасности
+<IfModule mod_headers.c>
+    # Защита от кликджекинга
+    Header always append X-Frame-Options SAMEORIGIN
+    
+    # Защита от MIME sniffing
+    Header always set X-Content-Type-Options nosniff
+    
+    # Защита от XSS
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # CSP (Content Security Policy)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self'; object-src 'none';"
+</IfModule>
+
+# Настройки для мобильных устройств
+<IfModule mod_rewrite.c>
+    # Перенаправление мобильных устройств (опционально)
+    # RewriteCond %{HTTP_USER_AGENT} (android|blackberry|iphone|ipad|ipod|iemobile|opera\ mobile|palmos|webos|googlebot-mobile) [NC]
+    # RewriteRule ^$ /mobile/ [L,R=302]
+</IfModule>
+
+# Настройки для API
+<IfModule mod_rewrite.c>
+    # API маршруты
+    RewriteRule ^api/products/?$ api/products.php [L]
+    RewriteRule ^api/products/([0-9]+)/?$ api/products.php?id=$1 [L]
+    RewriteRule ^api/cart/?$ api/cart.php [L]
+    RewriteRule ^api/auth/?$ api/auth.php [L]
+    RewriteRule ^api/orders/?$ api/orders.php [L]
+    RewriteRule ^api/1c/?$ api/1c.php [L]
+</IfModule>
+
+# Настройки для 1C интеграции
+<IfModule mod_rewrite.c>
+    # 1C API endpoints
+    RewriteRule ^1c/sync/?$ api/1c-sync.php [L]
+    RewriteRule ^1c/status/?$ api/1c-status.php [L]
+    RewriteRule ^1c/products/?$ api/1c-products.php [L]
+</IfModule>
+
+# Логирование ошибок
+ErrorLog ${APACHE_LOG_DIR}/techstore_error.log
+CustomLog ${APACHE_LOG_DIR}/techstore_access.log combined
+
+# Настройки для производительности
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/svg+xml .svg
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+</IfModule>
+
+# Защита от directory browsing
+Options -Indexes
+
+# Настройки для SEO
+<IfModule mod_rewrite.c>
+    # ЧПУ для товаров
+    RewriteRule ^product/([a-zA-Z0-9_-]+)/?$ pages/product.html?slug=$1 [L,QSA]
+    
+    # ЧПУ для категорий
+    RewriteRule ^category/([a-zA-Z0-9_-]+)/?$ pages/catalog.html?category=$1 [L,QSA]
+    
+    # ЧПУ для брендов
+    RewriteRule ^brand/([a-zA-Z0-9_-]+)/?$ pages/catalog.html?brand=$1 [L,QSA]
+</IfModule>

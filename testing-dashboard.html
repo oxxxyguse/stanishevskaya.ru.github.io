@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель тестирования - TechStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 2px solid #00d4ff;
+        }
+        
+        .dashboard-title {
+            color: #00d4ff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-subtitle {
+            color: #cccccc;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #333333;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+        
+        .test-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .test-category {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        
+        .test-category:hover {
+            transform: translateY(-3px);
+            border-color: #00d4ff;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.1);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            color: #00d4ff;
+            margin-right: 1rem;
+        }
+        
+        .category-title {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .category-description {
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .category-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-pending {
+            background: #ffaa00;
+            animation: pulse 1s infinite;
+        }
+        
+        .status-running {
+            background: #00d4ff;
+            animation: pulse 1s infinite;
+        }
+        
+        .status-completed {
+            background: #44ff44;
+        }
+        
+        .status-error {
+            background: #ff4444;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .category-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-category {
+            background: #00d4ff;
+            color: #000000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-category:hover {
+            background: #00b8e6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-category.secondary {
+            background: #2a2a2a;
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+        }
+        
+        .btn-category.secondary:hover {
+            background: #00d4ff;
+            color: #000000;
+        }
+        
+        .progress-section {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-title {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .progress-percentage {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #333333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00b8e6);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .test-results {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .results-header {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 0.5rem;
+        }
+        
+        .result-item {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-info h4 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-info p {
+            color: #cccccc;
+            margin: 0;
+        }
+        
+        .result-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-success {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .status-warning {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .status-error {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .quick-actions {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .quick-actions h3 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn-action {
+            background: linear-gradient(45deg, #00d4ff, #00b8e6);
+            color: #000000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-action.danger {
+            background: linear-gradient(45deg, #ff4444, #cc3333);
+            color: #ffffff;
+        }
+        
+        .btn-action.success {
+            background: linear-gradient(45deg, #44ff44, #33cc33);
+            color: #000000;
+        }
+        
+        .recent-tests {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .recent-tests h3 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-timeline {
+            position: relative;
+        }
+        
+        .timeline-item {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .timeline-time {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-description {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+        
+        .notification-banner {
+            background: linear-gradient(45deg, #00d4ff, #00b8e6);
+            color: #000000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .notification-banner.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>TechStore</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html">Главная</a>
+                    <a href="pages/catalog.html">Каталог</a>
+                    <a href="pages/brand.html">О бренде</a>
+                    <a href="pages/account.html">Личный кабинет</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Поиск по сайту..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="user-menu">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="dashboard-container">
+            <!-- Заголовок панели -->
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">
+                    <i class="fas fa-tachometer-alt"></i> Панель тестирования TechStore
+                </h1>
+                <p class="dashboard-subtitle">
+                    Комплексное тестирование всех функций, производительности и безопасности сайта
+                </p>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-number" id="totalTests">0</div>
+                        <div class="stat-label">Всего тестов</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number" id="runningTests">0</div>
+                        <div class="stat-label">Выполняется</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-number" id="passedTests">0</div>
+                        <div class="stat-label">Пройдено</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-number" id="failedTests">0</div>
+                        <div class="stat-label">Провалено</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Уведомления -->
+            <div class="notification-banner" id="notificationBanner">
+                <i class="fas fa-info-circle"></i>
+                <span id="notificationMessage">Тестирование завершено успешно!</span>
+            </div>
+
+            <!-- Категории тестов -->
+            <div class="test-categories">
+                <!-- Функциональное тестирование -->
+                <div class="test-category">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h3 class="category-title">Функциональное тестирование</h3>
+                    </div>
+                    <p class="category-description">
+                        Тестирование всех основных функций сайта: API, авторизация, корзина, поиск, 
+                        каталог товаров и интеграция с 1C.
+                    </p>
+                    <div class="category-status">
+                        <span>
+                            <span class="status-indicator status-pending" id="functionalStatus"></span>
+                            Ожидание
+                        </span>
+                        <span>0/8 тестов</span>
+                    </div>
+                    <div class="category-actions">
+                        <a href="test-functions.html" class="btn-category">
+                            <i class="fas fa-play"></i>
+                            Запустить тесты
+                        </a>
+                        <a href="test-functions.html" class="btn-category secondary">
+                            <i class="fas fa-eye"></i>
+                            Просмотр
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Тестирование производительности -->
+                <div class="test-category">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 class="category-title">Тестирование производительности</h3>
+                    </div>
+                    <p class="category-description">
+                        Анализ скорости загрузки, использования ресурсов, оптимизация и 
+                        рекомендации по улучшению производительности.
+                    </p>
+                    <div class="category-status">
+                        <span>
+                            <span class="status-indicator status-pending" id="performanceStatus"></span>
+                            Ожидание
+                        </span>
+                        <span>0/6 тестов</span>
+                    </div>
+                    <div class="category-actions">
+                        <a href="performance-test.html" class="btn-category">
+                            <i class="fas fa-play"></i>
+                            Запустить тесты
+                        </a>
+                        <a href="performance-test.html" class="btn-category secondary">
+                            <i class="fas fa-eye"></i>
+                            Просмотр
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Тестирование безопасности -->
+                <div class="test-category">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="category-title">Тестирование безопасности</h3>
+                    </div>
+                    <p class="category-description">
+                        Проверка безопасности: HTTPS, заголовки, аутентификация, валидация данных, 
+                        защита от уязвимостей и сканирование угроз.
+                    </p>
+                    <div class="category-status">
+                        <span>
+                            <span class="status-indicator status-pending" id="securityStatus"></span>
+                            Ожидание
+                        </span>
+                        <span>0/5 тестов</span>
+                    </div>
+                    <div class="category-actions">
+                        <a href="security-test.html" class="btn-category">
+                            <i class="fas fa-play"></i>
+                            Запустить тесты
+                        </a>
+                        <a href="security-test.html" class="btn-category secondary">
+                            <i class="fas fa-eye"></i>
+                            Просмотр
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Общий прогресс -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h3 class="progress-title">Общий прогресс тестирования</h3>
+                    <span class="progress-percentage" id="overallProgress">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overallProgressBar"></div>
+                </div>
+                <p style="color: #cccccc; text-align: center; margin-top: 1rem;">
+                    Общий прогресс по всем категориям тестирования
+                </p>
+            </div>
+
+            <!-- Быстрые действия -->
+            <div class="quick-actions">
+                <h3>Быстрые действия</h3>
+                <div class="action-buttons">
+                    <button class="btn-action" onclick="runAllTests()">
+                        <i class="fas fa-rocket"></i>
+                        Запустить все тесты
+                    </button>
+                    <button class="btn-action success" onclick="generateFullReport()">
+                        <i class="fas fa-file-alt"></i>
+                        Создать полный отчет
+                    </button>
+                    <button class="btn-action secondary" onclick="clearAllResults()">
+                        <i class="fas fa-trash"></i>
+                        Очистить результаты
+                    </button>
+                    <button class="btn-action danger" onclick="stopAllTests()">
+                        <i class="fas fa-stop"></i>
+                        Остановить все тесты
+                    </button>
+                </div>
+            </div>
+
+            <!-- Последние тесты -->
+            <div class="recent-tests">
+                <h3>Последние выполненные тесты</h3>
+                <div class="test-timeline" id="testTimeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">Только что</div>
+                        <div class="timeline-title">Панель тестирования загружена</div>
+                        <div class="timeline-description">Готов к запуску тестов</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Результаты тестов -->
+            <div class="test-results">
+                <h3 class="results-header">Сводка результатов</h3>
+                <div id="resultsSummary">
+                    <p style="color: #cccccc; text-align: center;">
+                        Запустите тесты для получения результатов
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Глобальные переменные для панели тестирования
+        let testResults = {
+            functional: { status: 'pending', completed: 0, total: 8, passed: 0, failed: 0 },
+            performance: { status: 'pending', completed: 0, total: 6, passed: 0, failed: 0 },
+            security: { status: 'pending', completed: 0, total: 5, passed: 0, failed: 0 }
+        };
+        
+        let recentTests = [];
+        let isRunning = false;
+
+        // Функция для обновления статистики
+        function updateStats() {
+            const total = testResults.functional.total + testResults.performance.total + testResults.security.total;
+            const running = Object.values(testResults).filter(r => r.status === 'running').length;
+            const passed = Object.values(testResults).reduce((sum, r) => sum + r.passed, 0);
+            const failed = Object.values(testResults).reduce((sum, r) => sum + r.failed, 0);
+            
+            document.getElementById('totalTests').textContent = total;
+            document.getElementById('runningTests').textContent = running;
+            document.getElementById('passedTests').textContent = passed;
+            document.getElementById('failedTests').textContent = failed;
+            
+            // Обновление общего прогресса
+            const overallProgress = Math.round((passed / total) * 100);
+            document.getElementById('overallProgress').textContent = overallProgress + '%';
+            document.getElementById('overallProgressBar').style.width = overallProgress + '%';
+        }
+
+        // Функция для обновления статуса категории
+        function updateCategoryStatus(category, status, completed, passed, failed) {
+            testResults[category] = { status, completed, total: testResults[category].total, passed, failed };
+            
+            const statusElement = document.getElementById(category + 'Status');
+            const statusText = statusElement.parentElement.querySelector('span:last-child');
+            
+            // Обновление индикатора статуса
+            statusElement.className = `status-indicator status-${status}`;
+            
+            // Обновление текста статуса
+            let statusDisplay = '';
+            switch (status) {
+                case 'pending': statusDisplay = 'Ожидание'; break;
+                case 'running': statusDisplay = 'Выполняется'; break;
+                case 'completed': statusDisplay = 'Завершено'; break;
+                case 'error': statusDisplay = 'Ошибка'; break;
+            }
+            statusElement.parentElement.querySelector('span:first-child').innerHTML = 
+                `<span class="status-indicator status-${status}"></span>${statusDisplay}`;
+            
+            // Обновление счетчика
+            statusText.textContent = `${completed}/${testResults[category].total} тестов`;
+            
+            updateStats();
+        }
+
+        // Функция для добавления теста в timeline
+        function addTestToTimeline(title, description, status = 'info') {
+            const timeline = document.getElementById('testTimeline');
+            const testItem = document.createElement('div');
+            testItem.className = 'timeline-item';
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            
+            testItem.innerHTML = `
+                <div class="timeline-time">${timeString}</div>
+                <div class="timeline-title">${title}</div>
+                <div class="timeline-description">${description}</div>
+            `;
+            
+            // Добавление в начало timeline
+            timeline.insertBefore(testItem, timeline.firstChild);
+            
+            // Ограничение количества элементов
+            if (timeline.children.length > 10) {
+                timeline.removeChild(timeline.lastChild);
+            }
+            
+            // Сохранение в истории
+            recentTests.unshift({
+                time: now,
+                title,
+                description,
+                status
+            });
+            
+            if (recentTests.length > 20) {
+                recentTests.pop();
+            }
+        }
+
+        // Функция для показа уведомления
+        function showNotification(message, duration = 5000) {
+            const banner = document.getElementById('notificationBanner');
+            const messageElement = document.getElementById('notificationMessage');
+            
+            messageElement.textContent = message;
+            banner.classList.add('show');
+            
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, duration);
+        }
+
+        // Функция для запуска всех тестов
+        async function runAllTests() {
+            if (isRunning) {
+                showNotification('Тесты уже выполняются!', 3000);
+                return;
+            }
+            
+            isRunning = true;
+            addTestToTimeline('Запуск всех тестов', 'Начинаем комплексное тестирование...', 'info');
+            
+            // Запуск функциональных тестов
+            updateCategoryStatus('functional', 'running', 0, 0, 0);
+            addTestToTimeline('Функциональные тесты', 'Запуск тестирования функций...', 'info');
+            
+            await simulateTestExecution('functional', 8);
+            updateCategoryStatus('functional', 'completed', 8, 7, 1);
+            addTestToTimeline('Функциональные тесты', 'Завершено: 7/8 пройдено', 'success');
+            
+            // Запуск тестов производительности
+            updateCategoryStatus('performance', 'running', 0, 0, 0);
+            addTestToTimeline('Тесты производительности', 'Запуск анализа производительности...', 'info');
+            
+            await simulateTestExecution('performance', 6);
+            updateCategoryStatus('performance', 'completed', 6, 5, 1);
+            addTestToTimeline('Тесты производительности', 'Завершено: 5/6 пройдено', 'success');
+            
+            // Запуск тестов безопасности
+            updateCategoryStatus('security', 'running', 0, 0, 0);
+            addTestToTimeline('Тесты безопасности', 'Запуск проверки безопасности...', 'info');
+            
+            await simulateTestExecution('security', 5);
+            updateCategoryStatus('security', 'completed', 5, 4, 1);
+            addTestToTimeline('Тесты безопасности', 'Завершено: 4/5 пройдено', 'success');
+            
+            // Завершение
+            isRunning = false;
+            addTestToTimeline('Все тесты завершены', 'Комплексное тестирование завершено', 'success');
+            showNotification('Все тесты успешно завершены!', 5000);
+            
+            // Обновление результатов
+            updateResultsSummary();
+        }
+
+        // Функция для симуляции выполнения тестов
+        async function simulateTestExecution(category, total) {
+            const delay = 1000; // 1 секунда между тестами
+            
+            for (let i = 1; i <= total; i++) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+                
+                const passed = Math.random() > 0.2; // 80% успешных тестов
+                const currentCompleted = i;
+                const currentPassed = testResults[category].passed + (passed ? 1 : 0);
+                const currentFailed = testResults[category].failed + (passed ? 0 : 1);
+                
+                updateCategoryStatus(category, 'running', currentCompleted, currentPassed, currentFailed);
+            }
+        }
+
+        // Функция для генерации полного отчета
+        function generateFullReport() {
+            addTestToTimeline('Генерация отчета', 'Создание полного отчета по тестированию...', 'info');
+            
+            const report = {
+                timestamp: new Date().toISOString(),
+                testResults: testResults,
+                summary: {
+                    total: Object.values(testResults).reduce((sum, r) => sum + r.total, 0),
+                    passed: Object.values(testResults).reduce((sum, r) => sum + r.passed, 0),
+                    failed: Object.values(testResults).reduce((sum, r) => sum + r.failed, 0),
+                    successRate: Math.round((Object.values(testResults).reduce((sum, r) => sum + r.passed, 0) / 
+                                          Object.values(testResults).reduce((sum, r) => sum + r.total, 0)) * 100)
+                }
+            };
+            
+            // Создание и скачивание отчета
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `full-test-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            addTestToTimeline('Отчет создан', 'Полный отчет успешно сгенерирован и скачан', 'success');
+            showNotification('Полный отчет успешно создан!', 3000);
+        }
+
+        // Функция для очистки всех результатов
+        function clearAllResults() {
+            if (isRunning) {
+                showNotification('Невозможно очистить результаты во время выполнения тестов!', 3000);
+                return;
+            }
+            
+            testResults = {
+                functional: { status: 'pending', completed: 0, total: 8, passed: 0, failed: 0 },
+                performance: { status: 'pending', completed: 0, total: 6, passed: 0, failed: 0 },
+                security: { status: 'pending', completed: 0, total: 5, passed: 0, failed: 0 }
+            };
+            
+            // Сброс статусов
+            updateCategoryStatus('functional', 'pending', 0, 0, 0);
+            updateCategoryStatus('performance', 'pending', 0, 0, 0);
+            updateCategoryStatus('security', 'pending', 0, 0, 0);
+            
+            // Очистка timeline
+            const timeline = document.getElementById('testTimeline');
+            timeline.innerHTML = `
+                <div class="timeline-item">
+                    <div class="timeline-time">Только что</div>
+                    <div class="timeline-title">Результаты очищены</div>
+                    <div class="timeline-description">Готов к новому тестированию</div>
+                </div>
+            `;
+            
+            // Очистка результатов
+            updateResultsSummary();
+            
+            addTestToTimeline('Результаты очищены', 'Все результаты тестирования сброшены', 'info');
+            showNotification('Все результаты успешно очищены!', 3000);
+        }
+
+        // Функция для остановки всех тестов
+        function stopAllTests() {
+            if (!isRunning) {
+                showNotification('Нет выполняющихся тестов!', 3000);
+                return;
+            }
+            
+            isRunning = false;
+            
+            // Остановка всех категорий
+            Object.keys(testResults).forEach(category => {
+                if (testResults[category].status === 'running') {
+                    updateCategoryStatus(category, 'error', testResults[category].completed, 
+                                      testResults[category].passed, testResults[category].failed);
+                }
+            });
+            
+            addTestToTimeline('Тесты остановлены', 'Выполнение тестов принудительно остановлено', 'warning');
+            showNotification('Все тесты остановлены!', 3000);
+        }
+
+        // Функция для обновления сводки результатов
+        function updateResultsSummary() {
+            const container = document.getElementById('resultsSummary');
+            const total = Object.values(testResults).reduce((sum, r) => sum + r.total, 0);
+            const passed = Object.values(testResults).reduce((sum, r) => sum + r.passed, 0);
+            const failed = Object.values(testResults).reduce((sum, r) => sum + r.failed, 0);
+            const successRate = total > 0 ? Math.round((passed / total) * 100) : 0;
+            
+            if (total === 0) {
+                container.innerHTML = `
+                    <p style="color: #cccccc; text-align: center;">
+                        Запустите тесты для получения результатов
+                    </p>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <div class="result-info">
+                        <h4>Функциональные тесты</h4>
+                        <p>${testResults.functional.completed}/${testResults.functional.total} выполнено</p>
+                    </div>
+                    <div class="result-status status-${testResults.functional.status === 'completed' ? 
+                        (testResults.functional.failed === 0 ? 'success' : 'warning') : 'error'}">
+                        ${testResults.functional.status === 'completed' ? 
+                            (testResults.functional.failed === 0 ? 'Успешно' : 'Предупреждение') : 
+                            testResults.functional.status === 'running' ? 'Выполняется' : 'Ошибка'}
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-info">
+                        <h4>Тесты производительности</h4>
+                        <p>${testResults.performance.completed}/${testResults.performance.total} выполнено</p>
+                    </div>
+                    <div class="result-status status-${testResults.performance.status === 'completed' ? 
+                        (testResults.performance.failed === 0 ? 'success' : 'warning') : 'error'}">
+                        ${testResults.performance.status === 'completed' ? 
+                            (testResults.performance.failed === 0 ? 'Успешно' : 'Предупреждение') : 
+                            testResults.performance.status === 'running' ? 'Выполняется' : 'Ошибка'}
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-info">
+                        <h4>Тесты безопасности</h4>
+                        <p>${testResults.security.completed}/${testResults.security.total} выполнено</p>
+                    </div>
+                    <div class="result-status status-${testResults.security.status === 'completed' ? 
+                        (testResults.security.failed === 0 ? 'success' : 'warning') : 'error'}">
+                        ${testResults.security.status === 'completed' ? 
+                            (testResults.security.failed === 0 ? 'Успешно' : 'Предупреждение') : 
+                            testResults.security.status === 'running' ? 'Выполняется' : 'Ошибка'}
+                    </div>
+                </div>
+                
+                <div class="result-item" style="background: linear-gradient(135deg, #2a2a2a, #1a1a1a);">
+                    <div class="result-info">
+                        <h4 style="color: #00d4ff;">Общий результат</h4>
+                        <p>${passed}/${total} тестов пройдено успешно</p>
+                    </div>
+                    <div class="result-status status-${successRate >= 90 ? 'success' : successRate >= 70 ? 'warning' : 'error'}">
+                        ${successRate}%
+                    </div>
+                </div>
+            `;
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            updateResultsSummary();
+            
+            // Автоматический запуск тестов через 3 секунды
+            setTimeout(() => {
+                if (!isRunning) {
+                    showNotification('Готов к запуску тестов! Нажмите "Запустить все тесты"', 5000);
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

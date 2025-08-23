@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование производительности - TechStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .performance-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .performance-section {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .performance-section h2 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 0.5rem;
+        }
+        
+        .metric-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .metric-info h3 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-info p {
+            color: #cccccc;
+            margin: 0;
+        }
+        
+        .metric-value {
+            text-align: right;
+        }
+        
+        .metric-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .metric-unit {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+        
+        .metric-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-excellent {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .status-good {
+            background: #00d4ff;
+            color: #000000;
+        }
+        
+        .status-warning {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .status-poor {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .performance-chart {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            height: 300px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #cccccc;
+            font-size: 1.1rem;
+        }
+        
+        .optimization-tips {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tip-item {
+            background: #333333;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .tip-item h4 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tip-item p {
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tip-priority {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .priority-high {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .priority-medium {
+            background: #ffaa00;
+            color: #000000;
+        }
+        
+        .priority-low {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .btn-performance {
+            background: #00d4ff;
+            color: #000000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-performance:hover {
+            background: #00b8e6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-performance.danger {
+            background: #ff4444;
+            color: #ffffff;
+        }
+        
+        .btn-performance.success {
+            background: #44ff44;
+            color: #000000;
+        }
+        
+        .performance-summary {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 2px solid #00d4ff;
+        }
+        
+        .summary-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin: 1rem 0;
+        }
+        
+        .summary-label {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-description {
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .progress-ring-bg {
+            stroke: #333333;
+        }
+        
+        .progress-ring-progress {
+            stroke: #00d4ff;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        .real-time-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .metric-mini {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #333333;
+        }
+        
+        .metric-mini-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-mini-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+        
+        .metric-mini-trend {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .trend-up {
+            color: #44ff44;
+        }
+        
+        .trend-down {
+            color: #ff4444;
+        }
+        
+        .trend-stable {
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>TechStore</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html">Главная</a>
+                    <a href="pages/catalog.html">Каталог</a>
+                    <a href="pages/brand.html">О бренде</a>
+                    <a href="pages/account.html">Личный кабинет</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Поиск по сайту..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="user-menu">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="performance-container">
+            <h1 style="text-align: center; color: #00d4ff; margin-bottom: 2rem;">
+                <i class="fas fa-tachometer-alt"></i> Тестирование производительности TechStore
+            </h1>
+            
+            <!-- Общая оценка производительности -->
+            <div class="performance-summary">
+                <h2>Общая оценка производительности</h2>
+                <div class="summary-score" id="overallScore">--</div>
+                <div class="summary-label" id="scoreLabel">Загрузка...</div>
+                <div class="summary-description" id="scoreDescription">
+                    Нажмите "Запустить тесты" для получения оценки производительности
+                </div>
+                
+                <div class="progress-ring">
+                    <svg width="120" height="120">
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="45"></circle>
+                        <circle class="progress-ring-progress" cx="60" cy="60" r="45" id="progressCircle"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Основные метрики -->
+            <div class="performance-section">
+                <h2><i class="fas fa-chart-line"></i> Основные метрики производительности</h2>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время загрузки страницы</h3>
+                        <p>Общее время загрузки и отображения страницы</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="pageLoadTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="loadTimeStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время до интерактивности</h3>
+                        <p>Время до полной интерактивности страницы</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="interactiveTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="interactiveStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Размер страницы</h3>
+                        <p>Общий размер загруженных ресурсов</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="pageSize">--</div>
+                        <div class="metric-unit">KB</div>
+                        <div class="metric-status" id="pageSizeStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Количество запросов</h3>
+                        <p>Общее количество HTTP запросов</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="requestCount">--</div>
+                        <div class="metric-unit">запросов</div>
+                        <div class="metric-status" id="requestStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="test-buttons">
+                    <button class="btn-performance" onclick="runPerformanceTests()">
+                        <i class="fas fa-play"></i> Запустить тесты
+                    </button>
+                    <button class="btn-performance" onclick="clearResults()">
+                        <i class="fas fa-trash"></i> Очистить результаты
+                    </button>
+                    <button class="btn-performance success" onclick="exportResults()">
+                        <i class="fas fa-download"></i> Экспорт результатов
+                    </button>
+                </div>
+            </div>
+
+            <!-- Метрики в реальном времени -->
+            <div class="performance-section">
+                <h2><i class="fas fa-clock"></i> Метрики в реальном времени</h2>
+                
+                <div class="real-time-metrics">
+                    <div class="metric-mini">
+                        <div class="metric-mini-value" id="cpuUsage">--</div>
+                        <div class="metric-mini-label">Использование CPU</div>
+                        <div class="metric-mini-trend" id="cpuTrend">--</div>
+                    </div>
+                    
+                    <div class="metric-mini">
+                        <div class="metric-mini-value" id="memoryUsage">--</div>
+                        <div class="metric-mini-label">Использование памяти</div>
+                        <div class="metric-mini-trend" id="memoryTrend">--</div>
+                    </div>
+                    
+                    <div class="metric-mini">
+                        <div class="metric-mini-value" id="fps">--</div>
+                        <div class="metric-mini-label">FPS</div>
+                        <div class="metric-mini-trend" id="fpsTrend">--</div>
+                    </div>
+                    
+                    <div class="metric-mini">
+                        <div class="metric-mini-value" id="networkLatency">--</div>
+                        <div class="metric-mini-label">Сетевая задержка</div>
+                        <div class="metric-mini-trend" id="networkTrend">--</div>
+                    </div>
+                </div>
+                
+                <div class="test-buttons">
+                    <button class="btn-performance" onclick="startRealTimeMonitoring()">
+                        <i class="fas fa-play"></i> Начать мониторинг
+                    </button>
+                    <button class="btn-performance danger" onclick="stopRealTimeMonitoring()">
+                        <i class="fas fa-stop"></i> Остановить мониторинг
+                    </button>
+                </div>
+            </div>
+
+            <!-- Детальный анализ -->
+            <div class="performance-section">
+                <h2><i class="fas fa-search"></i> Детальный анализ</h2>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время загрузки изображений</h3>
+                        <p>Среднее время загрузки всех изображений на странице</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="imageLoadTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="imageLoadStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время загрузки CSS</h3>
+                        <p>Время загрузки всех CSS файлов</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="cssLoadTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="cssLoadStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время загрузки JavaScript</h3>
+                        <p>Время загрузки всех JavaScript файлов</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="jsLoadTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="jsLoadStatus">--</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <h3>Время рендеринга</h3>
+                        <p>Время отрисовки DOM элементов</p>
+                    </div>
+                    <div class="metric-value">
+                        <div class="metric-number" id="renderTime">--</div>
+                        <div class="metric-unit">мс</div>
+                        <div class="metric-status" id="renderStatus">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Рекомендации по оптимизации -->
+            <div class="performance-section">
+                <h2><i class="fas fa-lightbulb"></i> Рекомендации по оптимизации</h2>
+                
+                <div class="optimization-tips" id="optimizationTips">
+                    <p>Запустите тесты производительности для получения рекомендаций</p>
+                </div>
+            </div>
+
+            <!-- Графики производительности -->
+            <div class="performance-section">
+                <h2><i class="fas fa-chart-area"></i> Графики производительности</h2>
+                
+                <div class="performance-chart">
+                    <div class="chart-placeholder" id="chartPlaceholder">
+                        <i class="fas fa-chart-line" style="font-size: 3rem; color: #00d4ff; margin-right: 1rem;"></i>
+                        Графики будут доступны после запуска тестов
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Глобальные переменные для мониторинга
+        let monitoringInterval = null;
+        let performanceData = {
+            pageLoadTime: 0,
+            interactiveTime: 0,
+            pageSize: 0,
+            requestCount: 0,
+            imageLoadTime: 0,
+            cssLoadTime: 0,
+            jsLoadTime: 0,
+            renderTime: 0
+        };
+        
+        let realTimeData = {
+            cpuUsage: 0,
+            memoryUsage: 0,
+            fps: 0,
+            networkLatency: 0
+        };
+
+        // Функция для получения статуса метрики
+        function getMetricStatus(value, thresholds) {
+            if (value <= thresholds.excellent) return { status: 'excellent', text: 'Отлично' };
+            if (value <= thresholds.good) return { status: 'good', text: 'Хорошо' };
+            if (value <= thresholds.warning) return { status: 'warning', text: 'Предупреждение' };
+            return { status: 'poor', text: 'Плохо' };
+        }
+
+        // Функция для обновления кругового прогресса
+        function updateProgressRing(percentage) {
+            const circle = document.getElementById('progressCircle');
+            const circumference = 2 * Math.PI * 45; // r = 45
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // Функция для расчета общей оценки
+        function calculateOverallScore() {
+            const metrics = [
+                { value: performanceData.pageLoadTime, weight: 0.3, thresholds: { excellent: 1000, good: 2000, warning: 3000 } },
+                { value: performanceData.interactiveTime, weight: 0.25, thresholds: { excellent: 1500, good: 2500, warning: 3500 } },
+                { value: performanceData.pageSize, weight: 0.2, thresholds: { excellent: 500, good: 1000, warning: 2000 } },
+                { value: performanceData.requestCount, weight: 0.15, thresholds: { excellent: 10, good: 20, warning: 30 } },
+                { value: performanceData.renderTime, weight: 0.1, thresholds: { excellent: 100, good: 200, warning: 300 } }
+            ];
+            
+            let totalScore = 0;
+            let totalWeight = 0;
+            
+            metrics.forEach(metric => {
+                let score = 100;
+                if (metric.value > metric.thresholds.warning) score = 25;
+                else if (metric.value > metric.thresholds.good) score = 50;
+                else if (metric.value > metric.thresholds.excellent) score = 75;
+                
+                totalScore += score * metric.weight;
+                totalWeight += metric.weight;
+            });
+            
+            return Math.round(totalScore / totalWeight);
+        }
+
+        // Функция для получения описания оценки
+        function getScoreDescription(score) {
+            if (score >= 90) return 'Отличная производительность! Сайт работает очень быстро.';
+            if (score >= 75) return 'Хорошая производительность. Есть возможности для оптимизации.';
+            if (score >= 60) return 'Средняя производительность. Рекомендуется оптимизация.';
+            if (score >= 40) return 'Низкая производительность. Требуется серьезная оптимизация.';
+            return 'Критически низкая производительность. Необходима немедленная оптимизация.';
+        }
+
+        // Функция для получения рекомендаций по оптимизации
+        function getOptimizationTips() {
+            const tips = [];
+            
+            if (performanceData.pageLoadTime > 2000) {
+                tips.push({
+                    priority: 'high',
+                    title: 'Оптимизация времени загрузки',
+                    description: 'Время загрузки страницы превышает рекомендуемые 2 секунды. Рассмотрите возможность минификации CSS/JS, оптимизации изображений и использования CDN.'
+                });
+            }
+            
+            if (performanceData.pageSize > 1000) {
+                tips.push({
+                    priority: 'medium',
+                    title: 'Уменьшение размера страницы',
+                    description: 'Размер страницы превышает 1MB. Оптимизируйте изображения, используйте сжатие и минификацию ресурсов.'
+                });
+            }
+            
+            if (performanceData.requestCount > 20) {
+                tips.push({
+                    priority: 'medium',
+                    title: 'Уменьшение количества запросов',
+                    description: 'Количество HTTP запросов превышает 20. Объедините CSS/JS файлы, используйте спрайты для изображений.'
+                });
+            }
+            
+            if (performanceData.renderTime > 200) {
+                tips.push({
+                    priority: 'high',
+                    title: 'Оптимизация рендеринга',
+                    description: 'Время рендеринга превышает 200мс. Оптимизируйте CSS, избегайте layout thrashing, используйте will-change.'
+                });
+            }
+            
+            if (tips.length === 0) {
+                tips.push({
+                    priority: 'low',
+                    title: 'Отличная производительность',
+                    description: 'Все метрики в пределах нормы. Продолжайте поддерживать текущий уровень оптимизации.'
+                });
+            }
+            
+            return tips;
+        }
+
+        // Функция для отображения рекомендаций
+        function displayOptimizationTips() {
+            const tips = getOptimizationTips();
+            const container = document.getElementById('optimizationTips');
+            
+            container.innerHTML = tips.map(tip => `
+                <div class="tip-item">
+                    <h4>${tip.title}</h4>
+                    <p>${tip.description}</p>
+                    <span class="tip-priority priority-${tip.priority}">${tip.priority === 'high' ? 'Высокий' : tip.priority === 'medium' ? 'Средний' : 'Низкий'}</span>
+                </div>
+            `).join('');
+        }
+
+        // Функция для запуска тестов производительности
+        async function runPerformanceTests() {
+            // Сброс данных
+            performanceData = {
+                pageLoadTime: 0,
+                interactiveTime: 0,
+                pageSize: 0,
+                requestCount: 0,
+                imageLoadTime: 0,
+                cssLoadTime: 0,
+                jsLoadTime: 0,
+                renderTime: 0
+            };
+            
+            // Измерение времени загрузки страницы
+            const navigationStart = performance.timing.navigationStart || performance.now();
+            const loadEnd = performance.timing.loadEventEnd || performance.now();
+            performanceData.pageLoadTime = Math.round(loadEnd - navigationStart);
+            
+            // Измерение времени до интерактивности
+            const domContentLoaded = performance.timing.domContentLoadedEventEnd || performance.now();
+            performanceData.interactiveTime = Math.round(domContentLoaded - navigationStart);
+            
+            // Измерение времени рендеринга
+            const domComplete = performance.timing.domComplete || performance.now();
+            performanceData.renderTime = Math.round(domComplete - domContentLoaded);
+            
+            // Подсчет размера страницы и количества запросов
+            const resources = performance.getEntriesByType('resource');
+            performanceData.requestCount = resources.length;
+            
+            let totalSize = 0;
+            let imageLoadTime = 0;
+            let cssLoadTime = 0;
+            let jsLoadTime = 0;
+            let imageCount = 0;
+            let cssCount = 0;
+            let jsCount = 0;
+            
+            resources.forEach(resource => {
+                if (resource.transferSize) {
+                    totalSize += resource.transferSize;
+                }
+                
+                if (resource.name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+                    imageLoadTime += resource.duration;
+                    imageCount++;
+                } else if (resource.name.match(/\.css$/i)) {
+                    cssLoadTime += resource.duration;
+                    cssCount++;
+                } else if (resource.name.match(/\.js$/i)) {
+                    jsLoadTime += resource.duration;
+                    jsCount++;
+                }
+            });
+            
+            performanceData.pageSize = Math.round(totalSize / 1024); // KB
+            performanceData.imageLoadTime = imageCount > 0 ? Math.round(imageLoadTime / imageCount) : 0;
+            performanceData.cssLoadTime = cssCount > 0 ? Math.round(cssLoadTime / cssCount) : 0;
+            performanceData.jsLoadTime = jsCount > 0 ? Math.round(jsLoadTime / jsCount) : 0;
+            
+            // Обновление UI
+            updatePerformanceUI();
+            
+            // Расчет общей оценки
+            const overallScore = calculateOverallScore();
+            document.getElementById('overallScore').textContent = overallScore;
+            document.getElementById('scoreLabel').textContent = getScoreDescription(overallScore).split('.')[0];
+            document.getElementById('scoreDescription').textContent = getScoreDescription(overallScore);
+            
+            // Обновление прогресс-ринга
+            updateProgressRing(overallScore);
+            
+            // Отображение рекомендаций
+            displayOptimizationTips();
+            
+            // Обновление графика
+            updatePerformanceChart();
+        }
+
+        // Функция для обновления UI производительности
+        function updatePerformanceUI() {
+            // Обновление основных метрик
+            document.getElementById('pageLoadTime').textContent = performanceData.pageLoadTime;
+            document.getElementById('interactiveTime').textContent = performanceData.interactiveTime;
+            document.getElementById('pageSize').textContent = performanceData.pageSize;
+            document.getElementById('requestCount').textContent = performanceData.requestCount;
+            document.getElementById('imageLoadTime').textContent = performanceData.imageLoadTime;
+            document.getElementById('cssLoadTime').textContent = performanceData.cssLoadTime;
+            document.getElementById('jsLoadTime').textContent = performanceData.jsLoadTime;
+            document.getElementById('renderTime').textContent = performanceData.renderTime;
+            
+            // Обновление статусов
+            const loadTimeStatus = getMetricStatus(performanceData.pageLoadTime, { excellent: 1000, good: 2000, warning: 3000 });
+            const interactiveStatus = getMetricStatus(performanceData.interactiveTime, { excellent: 1500, good: 2500, warning: 3500 });
+            const pageSizeStatus = getMetricStatus(performanceData.pageSize, { excellent: 500, good: 1000, warning: 2000 });
+            const requestStatus = getMetricStatus(performanceData.requestCount, { excellent: 10, good: 20, warning: 30 });
+            const imageLoadStatus = getMetricStatus(performanceData.imageLoadTime, { excellent: 100, good: 200, warning: 300 });
+            const cssLoadStatus = getMetricStatus(performanceData.cssLoadTime, { excellent: 50, good: 100, warning: 150 });
+            const jsLoadStatus = getMetricStatus(performanceData.jsLoadTime, { excellent: 100, good: 200, warning: 300 });
+            const renderStatus = getMetricStatus(performanceData.renderTime, { excellent: 100, good: 200, warning: 300 });
+            
+            document.getElementById('loadTimeStatus').textContent = loadTimeStatus.text;
+            document.getElementById('loadTimeStatus').className = `metric-status status-${loadTimeStatus.status}`;
+            
+            document.getElementById('interactiveStatus').textContent = interactiveStatus.text;
+            document.getElementById('interactiveStatus').className = `metric-status status-${interactiveStatus.status}`;
+            
+            document.getElementById('pageSizeStatus').textContent = pageSizeStatus.text;
+            document.getElementById('pageSizeStatus').className = `metric-status status-${pageSizeStatus.status}`;
+            
+            document.getElementById('requestStatus').textContent = requestStatus.text;
+            document.getElementById('requestStatus').className = `metric-status status-${requestStatus.status}`;
+            
+            document.getElementById('imageLoadStatus').textContent = imageLoadStatus.text;
+            document.getElementById('imageLoadStatus').className = `metric-status status-${imageLoadStatus.status}`;
+            
+            document.getElementById('cssLoadStatus').textContent = cssLoadStatus.text;
+            document.getElementById('cssLoadStatus').className = `metric-status status-${cssLoadStatus.status}`;
+            
+            document.getElementById('jsLoadStatus').textContent = jsLoadStatus.text;
+            document.getElementById('jsLoadStatus').className = `metric-status status-${jsLoadStatus.status}`;
+            
+            document.getElementById('renderStatus').textContent = renderStatus.text;
+            document.getElementById('renderStatus').className = `metric-status status-${renderStatus.status}`;
+        }
+
+        // Функция для обновления графика производительности
+        function updatePerformanceChart() {
+            const chartPlaceholder = document.getElementById('chartPlaceholder');
+            chartPlaceholder.innerHTML = `
+                <div style="text-align: center; color: #00d4ff;">
+                    <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <h3>Метрики производительности</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                        <div style="background: #333; padding: 1rem; border-radius: 6px;">
+                            <div style="color: #00d4ff; font-size: 1.2rem; font-weight: bold;">${performanceData.pageLoadTime}мс</div>
+                            <div style="color: #ccc; font-size: 0.9rem;">Загрузка страницы</div>
+                        </div>
+                        <div style="background: #333; padding: 1rem; border-radius: 6px;">
+                            <div style="color: #00d4ff; font-size: 1.2rem; font-weight: bold;">${performanceData.pageSize}KB</div>
+                            <div style="color: #ccc; font-size: 0.9rem;">Размер страницы</div>
+                        </div>
+                        <div style="background: #333; padding: 1rem; border-radius: 6px;">
+                            <div style="color: #00d4ff; font-size: 1.2rem; font-weight: bold;">${performanceData.requestCount}</div>
+                            <div style="color: #ccc; font-size: 0.9rem;">Запросы</div>
+                        </div>
+                        <div style="background: #333; padding: 1rem; border-radius: 6px;">
+                            <div style="color: #00d4ff; font-size: 1.2rem; font-weight: bold;">${performanceData.renderTime}мс</div>
+                            <div style="color: #ccc; font-size: 0.9rem;">Рендеринг</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Функция для мониторинга в реальном времени
+        function startRealTimeMonitoring() {
+            if (monitoringInterval) {
+                clearInterval(monitoringInterval);
+            }
+            
+            monitoringInterval = setInterval(() => {
+                // Симуляция метрик в реальном времени
+                realTimeData.cpuUsage = Math.random() * 100;
+                realTimeData.memoryUsage = Math.random() * 100;
+                realTimeData.fps = 30 + Math.random() * 30;
+                realTimeData.networkLatency = 10 + Math.random() * 50;
+                
+                // Обновление UI
+                document.getElementById('cpuUsage').textContent = Math.round(realTimeData.cpuUsage) + '%';
+                document.getElementById('memoryUsage').textContent = Math.round(realTimeData.memoryUsage) + '%';
+                document.getElementById('fps').textContent = Math.round(realTimeData.fps);
+                document.getElementById('networkLatency').textContent = Math.round(realTimeData.networkLatency) + 'мс';
+                
+                // Обновление трендов
+                updateTrends();
+            }, 1000);
+        }
+
+        // Функция для остановки мониторинга
+        function stopRealTimeMonitoring() {
+            if (monitoringInterval) {
+                clearInterval(monitoringInterval);
+                monitoringInterval = null;
+            }
+        }
+
+        // Функция для обновления трендов
+        function updateTrends() {
+            // Простая логика для демонстрации трендов
+            const cpuTrend = document.getElementById('cpuTrend');
+            const memoryTrend = document.getElementById('memoryTrend');
+            const fpsTrend = document.getElementById('fpsTrend');
+            const networkTrend = document.getElementById('networkTrend');
+            
+            if (realTimeData.cpuUsage < 50) {
+                cpuTrend.textContent = '↓ Стабильно';
+                cpuTrend.className = 'metric-mini-trend trend-down';
+            } else {
+                cpuTrend.textContent = '↑ Высоко';
+                cpuTrend.className = 'metric-mini-trend trend-up';
+            }
+            
+            if (realTimeData.memoryUsage < 60) {
+                memoryTrend.textContent = '↓ Нормально';
+                memoryTrend.className = 'metric-mini-trend trend-down';
+            } else {
+                memoryTrend.textContent = '↑ Много';
+                memoryTrend.className = 'metric-mini-trend trend-up';
+            }
+            
+            if (realTimeData.fps > 50) {
+                fpsTrend.textContent = '↑ Отлично';
+                fpsTrend.className = 'metric-mini-trend trend-up';
+            } else {
+                fpsTrend.textContent = '↓ Медленно';
+                fpsTrend.className = 'metric-mini-trend trend-down';
+            }
+            
+            if (realTimeData.networkLatency < 30) {
+                networkTrend.textContent = '↓ Быстро';
+                networkTrend.className = 'metric-mini-trend trend-down';
+            } else {
+                networkTrend.textContent = '↑ Медленно';
+                networkTrend.className = 'metric-mini-trend trend-up';
+            }
+        }
+
+        // Функция для очистки результатов
+        function clearResults() {
+            performanceData = {
+                pageLoadTime: 0,
+                interactiveTime: 0,
+                pageSize: 0,
+                requestCount: 0,
+                imageLoadTime: 0,
+                cssLoadTime: 0,
+                jsLoadTime: 0,
+                renderTime: 0
+            };
+            
+            document.getElementById('overallScore').textContent = '--';
+            document.getElementById('scoreLabel').textContent = 'Загрузка...';
+            document.getElementById('scoreDescription').textContent = 'Нажмите "Запустить тесты" для получения оценки производительности';
+            
+            updateProgressRing(0);
+            updatePerformanceUI();
+            
+            document.getElementById('chartPlaceholder').innerHTML = `
+                <i class="fas fa-chart-line" style="font-size: 3rem; color: #00d4ff; margin-right: 1rem;"></i>
+                Графики будут доступны после запуска тестов
+            `;
+            
+            document.getElementById('optimizationTips').innerHTML = '<p>Запустите тесты производительности для получения рекомендаций</p>';
+        }
+
+        // Функция для экспорта результатов
+        function exportResults() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                overallScore: document.getElementById('overallScore').textContent,
+                performanceData: performanceData,
+                recommendations: getOptimizationTips()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `performance-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автоматический запуск тестов при загрузке
+            setTimeout(runPerformanceTests, 1000);
+        });
+    </script>
+</body>
+</html>

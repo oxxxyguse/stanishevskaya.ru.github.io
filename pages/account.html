@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - TechStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-microchip"></i>
+                    <span>TechStore</span>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Поиск по сайту...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="../index.html">Главная</a>
+                    <a href="catalog.html">Каталог</a>
+                    <a href="brand.html">О бренде</a>
+                    <a href="account.html" class="active">Личный кабинет</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="account.html" class="account-icon active">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Личный кабинет</h1>
+            <p>Управление профилем и заказами</p>
+        </div>
+    </section>
+
+    <!-- Account Content -->
+    <section class="account-content">
+        <div class="container">
+            <div class="account-layout">
+                <!-- Account Sidebar -->
+                <div class="account-sidebar">
+                    <!-- Authentication forms -->
+                    <div class="auth-container" style="display: none;">
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" data-tab="login">Вход</button>
+                            <button class="auth-tab" data-tab="register">Регистрация</button>
+                        </div>
+                        
+                        <!-- Login form -->
+                        <form id="login-form" class="auth-form">
+                            <div class="form-group">
+                                <label for="login-email">Email</label>
+                                <input type="email" id="login-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Пароль</label>
+                                <input type="password" id="login-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                            <p class="auth-switch">
+                                Нет аккаунта? 
+                                <a href="#" id="switch-to-register">Зарегистрироваться</a>
+                            </p>
+                        </form>
+                        
+                        <!-- Register form -->
+                        <form id="register-form" class="auth-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="register-name">Имя</label>
+                                <input type="text" id="register-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-email">Email</label>
+                                <input type="email" id="register-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password">Пароль</label>
+                                <input type="password" id="register-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-confirm-password">Подтвердите пароль</label>
+                                <input type="password" id="register-confirm-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                            <p class="auth-switch">
+                                Уже есть аккаунт? 
+                                <a href="#" id="switch-to-register">Войти</a>
+                            </p>
+                        </form>
+                    </div>
+                    
+                    <!-- User profile (shown when authenticated) -->
+                    <div class="user-container" style="display: none;">
+                        <div class="user-profile">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h3 id="userName">Гость</h3>
+                                <p id="userEmail">Не авторизован</p>
+                            </div>
+                        </div>
+                        
+                        <nav class="account-nav">
+                            <a href="#profile" class="nav-item active" data-tab="profile">
+                                <i class="fas fa-user-circle"></i>
+                                Профиль
+                            </a>
+                            <a href="#orders" class="nav-item" data-tab="orders">
+                                <i class="fas fa-shopping-bag"></i>
+                                Заказы
+                            </a>
+                            <a href="#favorites" class="nav-item" data-tab="favorites">
+                                <i class="fas fa-heart"></i>
+                                Избранное
+                            </a>
+                            <a href="#settings" class="nav-item" data-tab="settings">
+                                <i class="fas fa-cog"></i>
+                                Настройки
+                            </a>
+                            <a href="#logout" class="nav-item logout" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Выйти
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                
+                <!-- Account Main Content -->
+                <div class="account-main">
+                    <!-- Profile Tab -->
+                    <div class="tab-content active" id="profile">
+                        <div class="tab-header">
+                            <h2>Профиль пользователя</h2>
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i>
+                                Редактировать
+                            </button>
+                        </div>
+                        
+                        <div class="profile-form" id="profileForm">
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" id="profileName" value="Иван Иванов" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="profileEmail" value="ivan@example.com" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input type="tel" id="profilePhone" value="+7 (999) 123-45-67" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Дата рождения</label>
+                                <input type="date" id="profileBirth" value="1990-01-01" disabled>
+                            </div>
+                            
+                            <div class="form-actions" id="profileActions" style="display: none;">
+                                <button class="btn btn-primary" id="saveProfileBtn">
+                                    <i class="fas fa-save"></i>
+                                    Сохранить
+                                </button>
+                                <button class="btn btn-outline" id="cancelProfileBtn">
+                                    Отмена
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Orders Tab -->
+                    <div class="tab-content" id="orders">
+                        <div class="tab-header">
+                            <h2>История заказов</h2>
+                        </div>
+                        
+                        <div class="orders-list" id="ordersList">
+                            <!-- Orders will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="orders-empty" id="ordersEmpty" style="display: none;">
+                            <div class="empty-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <h3>Заказов пока нет</h3>
+                            <p>Сделайте первый заказ в нашем магазине</p>
+                            <a href="catalog.html" class="btn btn-primary">Перейти в каталог</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Favorites Tab -->
+                    <div class="tab-content" id="favorites">
+                        <div class="tab-header">
+                            <h2>Избранные товары</h2>
+                        </div>
+                        
+                        <div class="favorites-grid" id="favoritesGrid">
+                            <!-- Favorites will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="favorites-empty" id="favoritesEmpty" style="display: none;">
+                            <div class="empty-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>Избранных товаров нет</h3>
+                            <p>Добавляйте товары в избранное для быстрого доступа</p>
+                            <a href="catalog.html" class="btn btn-primary">Перейти в каталог</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Tab -->
+                    <div class="tab-content" id="settings">
+                        <div class="tab-header">
+                            <h2>Настройки аккаунта</h2>
+                        </div>
+                        
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>Уведомления по email</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>SMS уведомления</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="smsNotifications">
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Язык интерфейса</label>
+                                <select id="languageSelect">
+                                    <option value="ru">Русский</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Валюта</label>
+                                <select id="currencySelect">
+                                    <option value="RUB" selected>Рубли (₽)</option>
+                                    <option value="USD">Доллары ($)</option>
+                                    <option value="EUR">Евро (€)</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="saveSettingsBtn">
+                                <i class="fas fa-save"></i>
+                                Сохранить настройки
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStore</h3>
+                    <p>Современные технологии для вашего бизнеса</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Email: info@techstore.ru</p>
+                    <p>Телефон: +7 (999) 123-45-67</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Поддержка</h4>
+                    <p>Помощь клиентам</p>
+                    <p>Доставка и оплата</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStore. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/account.js"></script>
+</body>
+</html>
