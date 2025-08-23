@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - Stanishevskaya Line</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                                            <i class="fas fa-female"></i>
+                    <span>Stanishevskaya Line</span>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Поиск по сайту...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="../index.html">Главная</a>
+                    <a href="catalog.html">Каталог</a>
+                    <a href="brand.html">О бренде</a>
+                    <a href="account.html">Личный кабинет</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="account.html" class="account-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Корзина</h1>
+            <p>Ваши выбранные товары</p>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="cart-content">
+        <div class="container">
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items">
+                    <div class="cart-header">
+                        <h2>Товары в корзине</h2>
+                        <span class="items-count">0 товаров</span>
+                    </div>
+                    
+                    <div class="cart-items-list" id="cartItemsList">
+                        <!-- Cart items will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="cart-empty" id="cartEmpty" style="display: none;">
+                        <div class="empty-cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>Корзина пуста</h3>
+                        <p>Добавьте товары из каталога, чтобы продолжить покупки</p>
+                        <a href="catalog.html" class="btn btn-primary">Перейти в каталог</a>
+                    </div>
+                </div>
+                
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <h3>Итого</h3>
+                        
+                        <div class="summary-row">
+                            <span>Товары:</span>
+                            <span id="subtotal">0 ₽</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Доставка:</span>
+                            <span id="shipping">0 ₽</span>
+                        </div>
+                        
+                        <div class="summary-row discount" id="discountRow" style="display: none;">
+                            <span>Скидка:</span>
+                            <span id="discount">0 ₽</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>К оплате:</span>
+                            <span id="total">0 ₽</span>
+                        </div>
+                        
+                        <button class="btn btn-primary checkout-btn" id="checkoutBtn" disabled>
+                            <i class="fas fa-credit-card"></i>
+                            Оформить заказ
+                        </button>
+                        
+                        <div class="payment-methods">
+                            <p>Способы оплаты:</p>
+                            <div class="payment-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-paypal"></i>
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <h4>Промокод</h4>
+                        <div class="promo-input">
+                            <input type="text" id="promoInput" placeholder="Введите промокод">
+                            <button class="btn btn-outline" id="applyPromo">Применить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Stanishevskaya Line</h3>
+                    <p>Элегантная женская одежда для любой ситуации</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Email: info@stanishevskaya.ru</p>
+                    <p>Телефон: +7 (999) 123-45-67</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Поддержка</h4>
+                    <p>Помощь клиентам</p>
+                    <p>Доставка и оплата</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Stanishevskaya Line. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

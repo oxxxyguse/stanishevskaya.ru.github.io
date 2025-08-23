@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stanishevskaya Line - Интернет-магазин женской одежды</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-female"></i>
+                        <span>Stanishevskaya Line</span>
+                    </a>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" placeholder="Поиск по сайту..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="pages/catalog.html">Каталог</a></li>
+                    <li><a href="pages/brand.html">О бренде</a></li>
+                    <li><a href="pages/account.html">Личный кабинет</a></li>
+                </ul>
+
+                <div class="header-actions">
+                    <a href="pages/cart.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="pages/account.html" class="account-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="hero-slider">
+                <div class="slide active">
+                    <div class="hero-container">
+                        <h1>Добро пожаловать в Stanishevskaya Line</h1>
+                        <p>Элегантная женская одежда для любой ситуации</p>
+                        <a href="pages/catalog.html" class="btn btn-primary">Перейти в каталог</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="hero-container">
+                        <h1>Новые поступления</h1>
+                        <p>Самые свежие гаджеты и устройства</p>
+                        <a href="pages/catalog.html?new=true" class="btn btn-primary">Смотреть новинки</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="hero-container">
+                        <h1>Скидки до 50%</h1>
+                        <p>На всю технику и аксессуары</p>
+                        <a href="pages/catalog.html?sale=true" class="btn btn-primary">Показать скидки</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </section>
+
+        <section class="featured-categories">
+            <div class="container">
+                <h2>Популярные категории</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Платья</h3>
+                        <p>От 3,500 ₽</p>
+                        <a href="pages/catalog.html?category=dresses" class="btn btn-outline">Смотреть</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <h3>Блузки</h3>
+                        <p>От 2,500 ₽</p>
+                        <a href="pages/catalog.html?category=blouses" class="btn btn-outline">Смотреть</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-shoe-prints"></i>
+                        </div>
+                        <h3>Обувь</h3>
+                        <p>От 4,500 ₽</p>
+                        <a href="pages/catalog.html?category=shoes" class="btn btn-outline">Смотреть</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>Аксессуары</h3>
+                        <p>От 1,500 ₽</p>
+                        <a href="pages/catalog.html?category=accessories" class="btn btn-outline">Смотреть</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <div class="container">
+                <h2>Рекомендуемые товары</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-female"></i>
+                            </div>
+                            <div class="product-badges">
+                                <span class="badge new">Новинка</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Вечернее платье "Элегант"</h3>
+                            <p class="product-description">Роскошное платье для особых случаев</p>
+                            <div class="product-price">
+                                <span class="current-price">12,990 ₽</span>
+                                <span class="old-price">15,990 ₽</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart">В корзину</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="product-badges">
+                                <span class="badge sale">-15%</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Блузка "Нежность"</h3>
+                            <p class="product-description">Элегантная блузка из натурального шелка</p>
+                            <div class="product-price">
+                                <span class="current-price">4,990 ₽</span>
+                                <span class="old-price">5,990 ₽</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart">В корзину</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-shoe-prints"></i>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Туфли "Грейс"</h3>
+                            <p class="product-description">Классические туфли-лодочки на каблуке</p>
+                            <div class="product-price">
+                                <span class="current-price">8,990 ₽</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart">В корзину</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>PlayStation 5</h3>
+                            <p class="product-description">Игровая консоль нового поколения</p>
+                            <div class="product-price">
+                                <span class="current-price">54,990 ₽</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart">В корзину</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-placeholder">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="product-badges">
+                                <span class="badge external">Wildberries</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Товары с Wildberries</h3>
+                            <p class="product-description">Широкий ассортимент от проверенного продавца</p>
+                            <div class="product-price">
+                                <span class="current-price">От 500 ₽</span>
+                            </div>
+                            <a href="https://www.wildberries.ru/seller/1236614" target="_blank" class="btn btn-outline">
+                                <i class="fas fa-external-link-alt"></i>
+                                Перейти к продавцу
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Мой сайт. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

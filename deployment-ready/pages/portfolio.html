@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио - Мой сайт</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="../index.html">Логотип</a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="services.html">Услуги</a></li>
+                    <li><a href="portfolio.html">Портфолио</a></li>
+                    <li><a href="contact.html">Контакты</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <h1>Наше портфолио</h1>
+                <p>Примеры наших лучших работ и проектов</p>
+            </div>
+        </section>
+
+        <section class="portfolio-filters">
+            <div class="container">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Все проекты</button>
+                    <button class="filter-btn" data-filter="web">Веб-сайты</button>
+                    <button class="filter-btn" data-filter="mobile">Мобильные приложения</button>
+                    <button class="filter-btn" data-filter="design">Дизайн</button>
+                    <button class="filter-btn" data-filter="branding">Брендинг</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-content">
+            <div class="container">
+                <div class="portfolio-grid">
+                    <div class="portfolio-item" data-category="web">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>🌐</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>Корпоративный сайт</h3>
+                                <p>Современный дизайн для IT компании</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>Корпоративный сайт</h3>
+                            <p>Веб-разработка, UI/UX дизайн</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item" data-category="mobile">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>📱</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>Приложение для доставки</h3>
+                                <p>iOS и Android приложение</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>Приложение для доставки</h3>
+                            <p>Мобильная разработка, React Native</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item" data-category="design">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>🎨</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>Брендинг ресторана</h3>
+                                <p>Логотип, меню, упаковка</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>Брендинг ресторана</h3>
+                            <p>Графический дизайн, Брендинг</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item" data-category="web">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>🛒</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>Интернет-магазин</h3>
+                                <p>E-commerce платформа</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>Интернет-магазин</h3>
+                            <p>Веб-разработка, E-commerce</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item" data-category="branding">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>🏢</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>Корпоративный стиль</h3>
+                                <p>Полный брендинг компании</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>Корпоративный стиль</h3>
+                            <p>Брендинг, Корпоративный дизайн</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item" data-category="mobile">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder">
+                                <span>💼</span>
+                            </div>
+                            <div class="portfolio-overlay">
+                                <h3>CRM приложение</h3>
+                                <p>Управление клиентами</p>
+                                <a href="#" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>CRM приложение</h3>
+                            <p>Мобильная разработка, Flutter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <h2>Отзывы клиентов</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Отличная работа! Команда выполнила проект в срок и с высоким качеством. Рекомендую!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">👤</div>
+                            <div class="author-info">
+                                <h4>Иван Петров</h4>
+                                <p>CEO, TechStart</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Профессиональный подход к каждому проекту. Результат превзошел все ожидания."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">👤</div>
+                            <div class="author-info">
+                                <h4>Анна Сидорова</h4>
+                                <p>Маркетинг директор, RetailPro</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Быстрая разработка, качественный код и отличная поддержка. Спасибо за работу!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">👤</div>
+                            <div class="author-info">
+                                <h4>Дмитрий Козлов</h4>
+                                <p>CTO, FinTech Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Мой сайт. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/portfolio.js"></script>
+</body>
+</html>

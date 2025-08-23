@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - Stanishevskaya Line</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="../index.html">
+                        <i class="fas fa-female"></i>
+                        <span>Stanishevskaya Line</span>
+                    </a>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" placeholder="Поиск по сайту..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="brand.html">О бренде</a></li>
+                    <li><a href="account.html">Личный кабинет</a></li>
+                </ul>
+
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="account.html" class="account-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <h1>Каталог товаров</h1>
+                <p>Найдите то, что ищете</p>
+            </div>
+        </section>
+
+        <section class="catalog-content">
+            <div class="container">
+                <div class="catalog-layout">
+                    <!-- Фильтры -->
+                    <aside class="catalog-filters">
+                        <div class="filter-section">
+                            <h3>Категории</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" value="dresses">
+                                    <span>Платья</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="blouses">
+                                    <span>Блузки</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="tablets">
+                                    <span>Планшеты</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="accessories">
+                                    <span>Аксессуары</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="gaming">
+                                    <span>Игровые устройства</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-section">
+                            <h3>Цена</h3>
+                            <div class="price-range">
+                                <input type="range" id="price-min" min="0" max="200000" value="0" class="price-slider">
+                                <input type="range" id="price-max" min="0" max="200000" value="200000" class="price-slider">
+                                <div class="price-inputs">
+                                    <input type="number" id="price-min-input" placeholder="От" class="price-input">
+                                    <span>-</span>
+                                    <input type="number" id="price-max-input" placeholder="До" class="price-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-section">
+                            <h3>Бренд</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" value="apple">
+                                    <span>Apple</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="stanishevskaya">
+                                    <span>Stanishevskaya</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="sony">
+                                    <span>Sony</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="asus">
+                                    <span>ASUS</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="lenovo">
+                                    <span>Lenovo</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-section">
+                            <h3>Наличие</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" value="in-stock">
+                                    <span>В наличии</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="pre-order">
+                                    <span>Под заказ</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary apply-filters">Применить фильтры</button>
+                        <button class="btn btn-outline clear-filters">Сбросить</button>
+                    </aside>
+
+                    <!-- Основной контент -->
+                    <div class="catalog-main">
+                        <div class="catalog-header">
+                            <div class="catalog-sort">
+                                <label>Сортировка:</label>
+                                <select class="sort-select">
+                                    <option value="popular">По популярности</option>
+                                    <option value="price-asc">По цене (возрастание)</option>
+                                    <option value="price-desc">По цене (убывание)</option>
+                                    <option value="new">По новизне</option>
+                                    <option value="name">По названию</option>
+                                </select>
+                            </div>
+                            <div class="catalog-view">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="products-grid" id="products-container">
+                            <!-- Товары будут загружены через JavaScript -->
+                        </div>
+
+                        <div class="catalog-pagination">
+                            <button class="pagination-btn prev">
+                                <i class="fas fa-chevron-left"></i>
+                                Предыдущая
+                            </button>
+                            <div class="pagination-numbers">
+                                <span class="page-number active">1</span>
+                                <span class="page-number">2</span>
+                                <span class="page-number">3</span>
+                                <span class="page-number">...</span>
+                                <span class="page-number">10</span>
+                            </div>
+                            <button class="pagination-btn next">
+                                Следующая
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+                            <p>&copy; 2024 Stanishevskaya Line. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/catalog.js"></script>
+</body>
+</html>
